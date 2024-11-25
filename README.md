@@ -8,3 +8,4 @@ anymal_docs_sdk
 ├── docs                           # documents
 ```
 
+### 1.2 Installation
