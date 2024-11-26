@@ -21,7 +21,7 @@ anymal_docs_sdk
 mkdir -p ~/ros2_ws/src
 git clone https://github.com/jizhang-cmu/autonomy_stack_go2.git
 ```
-You can try this if you want to deploy navigation on the robot. 
+You can try this if you want to deploy navigation on the robot (in the unity environment). 
 Please follow this [README](https://github.com/jizhang-cmu/autonomy_stack_go2) to continue your installation.
 
 ### 2.3 Unitree GO2 Robot ROS2 - [link](https://github.com/dkanou/go2_robot)
@@ -29,3 +29,5 @@ You can try this if you want to setup the realsense and LiDAR on the real-world 
 
 ### 2.4 Unitree Omniversal - [link](https://github.com/abizovnuralem/go2_omniverse)
 You can try this if you want to use the Nvidia Issac Sim with the robot.
+
+### 2.5 Unitree GO1, A1 Simulation ROS1 - [link](https://github.com/macc-n/ros_unitree)
