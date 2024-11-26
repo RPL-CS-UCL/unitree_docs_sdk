@@ -30,4 +30,7 @@ You can try this if you want to setup the realsense and LiDAR on the real-world 
 ### 2.4 Unitree Omniversal - [link](https://github.com/abizovnuralem/go2_omniverse)
 You can try this if you want to use the Nvidia Issac Sim with the robot.
 
-### 2.5 Unitree GO1, A1 Simulation ROS1 - [link](https://github.com/macc-n/ros_unitree)
+<!-- ### 2.5 Unitree GO1, A1 Simulation ROS1 - [link](https://github.com/macc-n/ros_unitree) -->
+
+### 2.5 Unitree Gazebo Simulation - [Link](https://github.com/anujjain-dev/unitree-go2-ros2)
+You can try this if you want to use the Gazebo Simulation with the robot (has been tested).
