@@ -55,34 +55,29 @@ RUN apt install -y \
   ros-${ROS_DISTRO}-velodyne-gazebo-plugins \
   ros-${ROS_DISTRO}-velodyne-description  
 
-RUN apt install -y \
-  python3-rosdep \
-  python3-rosinstall \
-  python3-rosinstall-generator \
-  python3-wstool \
-  build-essential \
-  python3-rosdep \
-  python3-pip \
-  python3-setuptools
-
-############### SLAM-related packages
 RUN apt-get update && apt-get install -y \
   ros-${ROS_DISTRO}-pcl-ros \
-  ros-${ROS_DISTRO}-tf-conversions \
-  ros-${ROS_DISTRO}-eigen-conversions \
   ros-${ROS_DISTRO}-image-geometry \
   ros-${ROS_DISTRO}-camera-info-manager \
   ros-${ROS_DISTRO}-image-view \
   ros-${ROS_DISTRO}-cv-bridge \
-  ros-${ROS_DISTRO}-tf \
   ros-${ROS_DISTRO}-tf2 \
   ros-${ROS_DISTRO}-tf2-eigen \
   ros-${ROS_DISTRO}-tf2-ros \
   ros-${ROS_DISTRO}-message-filters \
   ros-${ROS_DISTRO}-image-transport \
   ros-${ROS_DISTRO}-image-transport* \
-  ros-${ROS_DISTRO}-roscpp-tutorials \
   ros-${ROS_DISTRO}-gazebo-* 
+
+RUN apt install -y \
+  python3-rosdep \
+  python3-rosinstall \
+  python3-rosinstall-generator \
+  python3-wstool \
+  build-essential \
+  python3-pip \
+  python3-setuptools
+RUN rosdep update
 
 # Install Python apt dependencies
 RUN apt-get install --no-install-recommends -y \
