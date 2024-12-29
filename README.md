@@ -1,14 +1,11 @@
 # Unitree Document and SDK Collection
 
-## 1. Structure
-```shell script
-anymal_docs_sdk
-├── README.md
-├── docker                         # docker files
-├── docs                           # documents
-```
+This is an in-progress build that doesn't yet work.
 
-## 2. Available Softwares
+## Integration with CMU NAV Stack
+The package in this repo `rpl-unitree-ros` in the `software` folder starts work on integrating the nav stack. See the README in that repo for more details [here](software/rpl-unitree-ros/README.md)
+
+## 2. Other Available Softwares
 :exclamation: It should noted that Go2 only supports ROS2, while most of packages in RPL-RoboHike is are in ROS1. To avoid conflict between ROS1 and ROS2, please create another ROS2_ws and clone related packages in this workspace.
 
 ### 2.1 Unitree Document - [link](https://support.unitree.com/home/en/developer/about_Go2)

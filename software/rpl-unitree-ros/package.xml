@@ -64,11 +64,18 @@
   <exec_depend>terrain_analysis</exec_depend>
   <exec_depend>local_planner</exec_depend>
   <exec_depend>gazebo_ros</exec_depend>
-  <exec_depend>sensor_scan_generation</exec_depend>
   <exec_depend>tf</exec_depend>
   <exec_depend>sensor_scan_generation</exec_depend>
   <exec_depend>visualization_tools</exec_depend>
   <exec_depend>rviz</exec_depend>
+  <exec_depend>go1_description</exec_depend>
+  <exec_depend>a1_description</exec_depend>
+  <exec_depend>go2_description</exec_depend>
+  <exec_depend>waypoint_rviz_plugin</exec_depend>
+  <exec_depend>velodyne_simulator</exec_depend>
+  <exec_depend>velodyne_simulator</exec_depend>
+  <exec_depend>waypoint_example</exec_depend>
+  <exec_depend>teleop_rviz_plugin</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

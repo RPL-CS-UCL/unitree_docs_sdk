@@ -1,6 +1,8 @@
 # rpl-go-1
 
-This is a ros package to use the Go1 robot with RoboHike.
+This is a ros package to use the Go1 robot with RoboHike. It doesn't yet work, this is still in development.
+
+![demo_screenshot](assets/system_demo.png)
 
 ## Quick Start
 ```
@@ -8,6 +10,10 @@ catkin build rpl-unitree-ros
 source devel/setup.bash
 roslaunch rpl-unitree-ros system_forest.launch
 ```
+
+## Attribution
+
+The robot models all came from Unitree's ros repo on github [here](https://github.com/unitreerobotics/unitree_ros). This was not easy to submodule as the repo itself isn't a meta ros package.
 
 ## Troubleshooting
 

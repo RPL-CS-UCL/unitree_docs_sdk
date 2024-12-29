@@ -52,7 +52,6 @@
   <param name="imu_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/imu.urdf.xacro'" />
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_imu" args="-urdf -param /imu_description -model imu"/>
 
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/robot.urdf.xacro'" />
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -param /robot_description -model robot"/>
 
   <node pkg="vehicle_simulator" type="vehicleSimulator" name="vehicleSimulator" output="screen" required="true">
@@ -79,11 +78,5 @@
     <param name="InclFittingThre" value="$(arg InclFittingThre)" />
     <param name="maxIncl" value="$(arg maxIncl)" />
   </node>
-
-  <node pkg="tf" type="static_transform_publisher" name="vehicleTransPublisher" args="-$(arg sensorOffsetX) -$(arg sensorOffsetY) 0 0 0 0 /sensor /vehicle 1000"/>
-
-  <node pkg="tf" type="static_transform_publisher" name="sensorTransPublisher" args="0 0 $(arg cameraOffsetZ) -1.5707963 0 -1.5707963 /sensor /rgbd_camera 1000"/>
-
-  <node pkg="tf" type="static_transform_publisher" name="imuTransPublisher" args="0 0 0 0 0 0 /vehicle /imu_link 1000"/>
 
 </launch>
