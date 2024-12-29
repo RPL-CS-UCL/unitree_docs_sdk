@@ -1,0 +1,77 @@
+<launch>
+
+  <arg name="world_name" default="forest"/>
+  <arg name="vehicleHeight" default="0.75"/>
+  <arg name="cameraOffsetZ" default="0.15"/>
+  <arg name="vehicleX" default="0"/>
+  <arg name="vehicleY" default="0"/>
+  <arg name="terrainZ" default="0"/>
+  <arg name="vehicleYaw" default="0"/>
+  <arg name="gazebo_gui" default="false"/>
+  <arg name="checkTerrainConn" default="true"/>
+  <arg name="useLocalPlanner" default="true"/>
+
+  <arg name="urdf_package" default="go1_description"/>
+  <arg name="urdf_path_and_name" default="urdf/go1.urdf"/>
+
+  <arg name="urdf_package_path" value="$(eval find(arg('urdf_package')) + '/' + arg('urdf_path_and_name'))" />
+
+  <arg name="sensorOffsetX" default="0"/>
+  <arg name="sensorOffsetY" default="0"/>
+
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(arg urdf_package_path)'" />
+
+  <node pkg="tf" type="static_transform_publisher" name="vehicleTransPublisher" args="-$(arg sensorOffsetX) -$(arg sensorOffsetY) 0 0 0 0 /sensor /vehicle 1"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="sensorTransPublisher" args="0 0 $(arg cameraOffsetZ) -1.5707963 0 -1.5707963 /sensor /rgbd_camera 1"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="vehicleRobotPublisher" args="0 0 0 0 0 0 /vehicle /base 1"/>
+  <node pkg="tf" type="static_transform_publisher" name="baseLidarPublisher" args="0 0 0 0 0 0 /base /lidar_holder 1"/>
+
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+      <param name="use_gui" value="false"/>
+  </node>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="1000.0"/>
+  </node>
+
+  <!-- <include file="$(find ps3joy)/launch/ps3.launch" /> -->
+
+  <group if="$(arg useLocalPlanner)">
+    <include file="$(find local_planner)/launch/local_planner.launch" >
+      <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+      <arg name="goalX" value="$(arg vehicleX)"/>
+      <arg name="goalY" value="$(arg vehicleY)"/>
+    </include>
+  </group>
+
+  <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
+
+  <include file="$(find terrain_analysis_ext)/launch/terrain_analysis_ext.launch" >
+    <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
+  </include>
+
+  <include file="$(find rpl-unitree-ros)/launch/vehicle_simulator.launch" >
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="vehicleHeight" value="$(arg vehicleHeight)"/>
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+    <arg name="sensorOffsetX" value="$(arg sensorOffsetX)"/>
+    <arg name="sensorOffsetY" value="$(arg sensorOffsetY)"/>
+    <arg name="vehicleX" value="$(arg vehicleX)"/>
+    <arg name="vehicleY" value="$(arg vehicleY)"/>
+    <arg name="terrainZ" value="$(arg terrainZ)"/>
+    <arg name="vehicleYaw" value="$(arg vehicleYaw)"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+  </include>
+
+  <include file="$(find sensor_scan_generation)/launch/sensor_scan_generation.launch" />
+
+  <include file="$(find visualization_tools)/launch/visualization_tools.launch" >
+    <arg name="world_name" value="$(arg world_name)"/>
+  </include>
+
+  <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" args="-d $(find vehicle_simulator)/rviz/vehicle_simulator.rviz" respawn="true"/>
+
+</launch>
