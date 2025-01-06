@@ -11,9 +11,33 @@ source devel/setup.bash
 roslaunch rpl-unitree-ros system_forest.launch
 ```
 
+## CHAMP Controller
+
+This is a controller from MIT, viewable here [here](https://github.com/chvmp/champ).
+
+```
+student@ubuntu20:~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software$ git submodule update --init --recursive
+sudo apt-get install ros-noetic-ecl-threads ros-noetic-robot-localization
+```
+
+```
+catkin build -j2 go1_config champ champ_teleop champ_bringup champ_config
+roslaunch go1_config bringup.launch rviz:=true
+```
+
+```
+roslaunch go1_config bringup.launch rviz:=true description_file:=/home/student/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/unitree_ros/robots/go1_description/urdf/go1.urdf
+```
+
+```
+roslaunch champ_teleop teleop.launch
+```
+
+
+
 ## Attribution
 
-The robot models all came from Unitree's ros repo on github [here](https://github.com/unitreerobotics/unitree_ros). This was not easy to submodule as the repo itself isn't a meta ros package.
+The robot models all came from Unitree's ros repo on github [here](https://github.com/unitreerobotics/unitree_ros). It also uses the CMU NAV stack.
 
 ## Troubleshooting
 

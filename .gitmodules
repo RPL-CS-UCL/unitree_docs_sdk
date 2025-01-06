@@ -7,3 +7,9 @@
 [submodule "software/robots"]
 	path = software/robots
 	url = https://github.com/chvmp/robots.git
+[submodule "software/champ_teleop"]
+	path = software/champ_teleop
+	url = https://github.com/chvmp/champ_teleop
+[submodule "software/yujin_ocs"]
+	path = software/yujin_ocs
+	url = https://github.com/yujinrobot/yujin_ocs.git
