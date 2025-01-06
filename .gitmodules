@@ -1,3 +1,9 @@
 [submodule "software/unitree_ros"]
 	path = software/unitree_ros
 	url = git@github.com:unitreerobotics/unitree_ros.git
+[submodule "software/champ"]
+	path = software/champ
+	url = https://github.com/chvmp/champ.git
+[submodule "software/robots"]
+	path = software/robots
+	url = https://github.com/chvmp/robots.git
