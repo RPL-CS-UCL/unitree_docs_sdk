@@ -212,7 +212,10 @@ catkin_install_python(PROGRAMS scripts/pub_odom.py
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
    launch/system_forest.launch
-   config/go1_control.yaml
+   config/ros_control/ros_control.yaml
+   config/links/links.yaml
+   config/gait/gait.yaml
+   config/joints/joints.yaml
    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

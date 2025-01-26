@@ -62,3 +62,47 @@ cat /home/student/.ros/log/2fa2dda2-c5ce-11ef-829e-cd6a884391bb/spawn_camera-7*.
 
 Solution:
 ignore the error. This gazebo spawn service will process the spawn request in time, even after the spawn node times out and fails it will still be in the queue. You should still see the camera come up and be able to navigate.
+
+### unitree_legged_msgs is not in the workspace
+Error:
+```
+[build] Error: Given package 'unitree_legged_msgs' is not in the workspace and pattern does not match any package
+```
+
+```
+mz@DESKTOP-3C29OTD:~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/unitree_ros/unitree_ros_to_real$ ls
+mz@DESKTOP-3C29OTD:~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/unitree_ros/unitree_ros_to_real$ cd ..
+mz@DESKTOP-3C29OTD:~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/unitree_ros$ git status
+giHEAD detached at c20ca8f
+nothing to commit, working tree clean
+mz@DESKTOP-3C29OTD:~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/unitree_ros$ git submodule init
+Submodule 'unitree_ros_to_real' (https://github.com/unitreerobotics/unitree_ros_to_real.git) registered for path 'unitree_ros_to_real'
+mz@DESKTOP-3C29OTD:~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/unitree_ros$ git submodule update
+Cloning into '/home/mz/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/unitree_ros/unitree_ros_to_real'...
+Submodule path 'unitree_ros_to_real': checked out 'b989870124913091fbe75e0dcfb047eb4ca00a09'
+```
+
+### CMake Error, Could not find a package configuration file provided by "ecl_threads"
+```
+CMake Error at /opt/ros/noetic/share/catkin/cmake/catkinConfig.cmake:83 (find_package):
+  Could not find a package configuration file provided by "ecl_threads" with
+```
+
+Fix:
+```
+sudo apt-get install ros-noetic-ecl-threads*
+```
+
+### Multiple packages found with the same name "yocs_velocity_smoother"
+```
+[build] Error: There was an error while searching for available packages:
+
+Multiple packages found with the same name "yocs_velocity_smoother":
+- RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/yocs_velocity_smoother
+- RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/yujin_ocs/yocs_velocity_smoother
+```
+
+Fix:
+```
+~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software$ rm -rf yocs_velocity_smoother/
+```

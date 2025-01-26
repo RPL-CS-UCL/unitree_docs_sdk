@@ -16,14 +16,18 @@ odom_pub=rospy.Publisher('/gazebo_odom', Odometry, queue_size=1)
 rospy.wait_for_service('/gazebo/get_model_state')
 get_model_srv = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
 
+model_name = rospy.get_param('~model_name', 'robot')
+pub_rate = int(rospy.get_param('~pub_rate', 100))
+out_frame_id = rospy.get_param('~out_frame_id', 'odom')
+
 odom=Odometry()
 header = Header()
-header.frame_id='/odom'
+header.frame_id = out_frame_id
 
 model = GetModelStateRequest()
-model.model_name='robot'
+model.model_name = model_name
 
-r = rospy.Rate(200)
+r = rospy.Rate(pub_rate)
 
 while not rospy.is_shutdown():
 

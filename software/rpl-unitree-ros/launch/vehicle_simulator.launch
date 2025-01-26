@@ -2,6 +2,7 @@
 
   <arg name="use_gazebo_odom" default="false"/>
   <arg name="gazebo_controller_config_name" default="go1_control.yaml"/>
+  <arg name="ros_control_file" default="$(find rpl-unitree-ros)/config/ros_control/ros_control.yaml"/>
 
   <arg name="sensorOffsetX" default="0"/>
   <arg name="sensorOffsetY" default="0"/>
@@ -35,6 +36,8 @@
   <arg name="verbose" default="false"/>
   <arg name="world_name" default="garage"/>
 
+  <arg name="robot_name" default="/go1_gazebo"/>
+
   <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" unless="$(arg use_gazebo_odom)">
       <param name="use_gui" value="false"/>
   </node>
@@ -43,13 +46,25 @@
       <param name="publish_frequency" type="double" value="1000.0"/>
   </node>
 
-  <rosparam file="$(find rpl-unitree-ros)/config/$(arg gazebo_controller_config_name)" command="load" if="$(arg use_gazebo_odom)"/>
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-      output="screen" ns="/go1" args="joint1_position_controller joint2_position_controller joint3_position_controller joint4_position_controller joint5_position_controller joint6_position_controller joint7_position_controller joint8_position_controller joint9_position_controller joint10_position_controller joint11_position_controller joint12_position_controller joint_state_controller"/>
+  <rosparam file="$(arg ros_control_file)" command="load"/>
+  <node pkg="controller_manager" type="spawner" name="controller_spawner" respawn="false"
+          output="screen" ns="$(arg robot_name)" args="joint_states_controller joint_group_position_controller"/>
+
+  <!-- <rosparam file="$(find rpl-unitree-ros)/config/$(arg gazebo_controller_config_name)" command="load" if="$(arg use_gazebo_odom)"/> -->
+  <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+      output="screen" ns="/go1_gazebo" args="joint1_position_controller joint2_position_controller joint3_position_controller joint4_position_controller joint5_position_controller joint6_position_controller joint7_position_controller joint8_position_controller joint9_position_controller joint10_position_controller joint11_position_controller joint12_position_controller joint_state_controller"/> -->
+
+ <!-- <rosparam file="$(find go1_description)/config/robot_control.yaml" command="load"/> -->
+  <!-- <node pkg="controller_manager" type="spawner" name="controller_spawner" respawn="false"
+            output="screen" ns="/go1_gazebo" args="joint_state_controller
+            FL_hip_controller FL_thigh_controller FL_calf_controller
+            FR_hip_controller FR_thigh_controller FR_calf_controller
+            RL_hip_controller RL_thigh_controller RL_calf_controller
+            RR_hip_controller RR_thigh_controller RR_calf_controller "/> -->
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
     respawn="false" output="screen" if="$(arg use_gazebo_odom)">
-    <remap from="/joint_states" to="/go1/joint_states" />
+    <remap from="/joint_states" to="/go1_gazebo/joint_states" />
   </node>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch" >
@@ -72,7 +87,8 @@
   <param name="imu_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/imu.urdf.xacro'" />
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_imu" args="-urdf -param /imu_description -model imu"/>
 
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -param /robot_description -model robot"/>
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -model $(arg robot_name)  
+        -param robot_description -robot_namespace $(arg robot_name)"/>
 
   <node pkg="rpl-unitree-ros" type="vehicleSimulator" name="vehicleSimulator" output="screen" required="true">
     <param name="use_gazebo_time" type="bool" value="false" />
@@ -100,6 +116,11 @@
     <param name="maxIncl" value="$(arg maxIncl)" />
   </node>
 
-  <node pkg="rpl-unitree-ros" name="odom_pub" type="pub_odom.py" output="screen" if="$(arg use_gazebo_odom)"/>
+
+  <node pkg="rpl-unitree-ros" name="odom_pub" type="pub_odom.py" output="screen" if="$(arg use_gazebo_odom)">
+    <param name="model_name" value="$(arg robot_name)" />
+    <param name="pub_rate" value="100" />
+    <param name="out_frame_id" value="/odom" />
+  </node>
 
 </launch>

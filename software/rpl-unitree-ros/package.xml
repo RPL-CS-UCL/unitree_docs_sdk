@@ -85,8 +85,14 @@
   <exec_depend>velodyne_simulator</exec_depend>
   <exec_depend>waypoint_example</exec_depend>
   <exec_depend>teleop_rviz_plugin</exec_depend>
-
-  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>unitree_legged_control</exec_depend>
+  <exec_depend>unitree_legged_msgs</exec_depend>
+  <exec_depend>ros_controllers</exec_depend>
+  <exec_depend>effort_controllers</exec_depend>
+  <exec_depend>position_controllers</exec_depend>
+  <exec_depend>champ_base</exec_depend>
+  <exec_depend>champ_bringup</exec_depend>
+  <exec_depend>ecl_threads</exec_depend>
  
 
   <!-- The export tag contains other, unspecified, tags -->
