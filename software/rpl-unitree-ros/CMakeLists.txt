@@ -184,7 +184,7 @@ target_link_libraries(vehicleSimulator ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} $
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-catkin_install_python(PROGRAMS scripts/pub_odom.py
+catkin_install_python(PROGRAMS scripts/pub_odom.py scripts/twist_stamped_to_twist.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -216,6 +216,9 @@ install(FILES
    config/links/links.yaml
    config/gait/gait.yaml
    config/joints/joints.yaml
+   xacro/go1.xacro
+   xacro/lidar.urdf.xacro
+   xacro/rgbd_camera.urdf.xacro
    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

@@ -78,15 +78,6 @@
   </include>
 
   <!-- Add Robot URDF -->
-  <param name="camera_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/rgbd_camera.urdf.xacro'" />
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_camera" args="-urdf -param /camera_description -model rgbd_camera" />
-
-  <param name="lidar_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/lidar.urdf.xacro'" />
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_lidar" args="-urdf -param /lidar_description -model lidar" />
-
-  <param name="imu_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/imu.urdf.xacro'" />
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_imu" args="-urdf -param /imu_description -model imu"/>
-
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -model $(arg robot_name)  
         -param robot_description -robot_namespace $(arg robot_name)"/>
 
@@ -120,7 +111,7 @@
   <node pkg="rpl-unitree-ros" name="odom_pub" type="pub_odom.py" output="screen" if="$(arg use_gazebo_odom)">
     <param name="model_name" value="$(arg robot_name)" />
     <param name="pub_rate" value="100" />
-    <param name="out_frame_id" value="/odom" />
+    <param name="out_frame_id" value="/gazebo_odom" />
   </node>
 
 </launch>

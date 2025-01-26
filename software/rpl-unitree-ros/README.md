@@ -106,3 +106,21 @@ Fix:
 ```
 ~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software$ rm -rf yocs_velocity_smoother/
 ```
+
+### fatal error: champ/utils/urdf_loader.h: No such file or directory
+
+```
+Errors     << champ_base:make /home/mz/robohike_ws/logs/champ_base/build.make.002.log
+In file included from /home/mz/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/champ/champ_base/src/message_relay.cpp:28:
+/home/mz/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/champ/champ_base/include/message_relay.h:38:10: fatal error: champ/utils/urdf_loader.h: No such file or directory
+   38 | #include <champ/utils/urdf_loader.h>
+```
+
+Fix:
+```
+mz@DESKTOP-3C29OTD:~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/champ/champ$ git submodule init
+Submodule 'champ/include/champ' (https://github.com/chvmp/libchamp) registered for path 'include/champ'
+mz@DESKTOP-3C29OTD:~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/champ/champ$ git submodule update
+Cloning into '/home/mz/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/champ/champ/include/champ'...
+Submodule path 'include/champ': checked out '5572f50532d197c840db2fd283b84f3e1fdb4648'
+```

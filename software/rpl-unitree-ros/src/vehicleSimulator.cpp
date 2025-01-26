@@ -451,18 +451,7 @@ int main(int argc, char** argv)
 
     if (!use_gazebo_odom)
     {
-      // publish 200Hz odometry messages
-      odomData.header.stamp = odomTime;
-      odomData.pose.pose.orientation = geoQuat;
-      odomData.pose.pose.position.x = vehicleX;
-      odomData.pose.pose.position.y = vehicleY;
-      odomData.pose.pose.position.z = vehicleZ;
-      odomData.twist.twist.angular.x = 200.0 * (vehicleRoll - vehicleRecRoll);
-      odomData.twist.twist.angular.y = 200.0 * (vehiclePitch - vehicleRecPitch);
-      odomData.twist.twist.angular.z = vehicleYawRate;
-      odomData.twist.twist.linear.x = vehicleSpeed;
-      odomData.twist.twist.linear.z = 200.0 * (vehicleZ - vehicleRecZ);
-      pubVehicleOdom.publish(odomData);
+      
       //////////////////////////////////
       // NOTE(gogojjh): Simulate IMU Measurements
       // Eigen::Vector3d gravity(0.0, 0.0, -9.81);
@@ -498,18 +487,31 @@ int main(int argc, char** argv)
 
     }
 
+    // publish 200Hz odometry messages
+    odomData.header.stamp = odomTime;
+    odomData.pose.pose.orientation = geoQuat;
+    odomData.pose.pose.position.x = vehicleX;
+    odomData.pose.pose.position.y = vehicleY;
+    odomData.pose.pose.position.z = vehicleZ;
+    odomData.twist.twist.angular.x = 200.0 * (vehicleRoll - vehicleRecRoll);
+    odomData.twist.twist.angular.y = 200.0 * (vehiclePitch - vehicleRecPitch);
+    odomData.twist.twist.angular.z = vehicleYawRate;
+    odomData.twist.twist.linear.x = vehicleSpeed;
+    odomData.twist.twist.linear.z = 200.0 * (vehicleZ - vehicleRecZ);
+    // pubVehicleOdom.publish(odomData);
+
     // publish 200Hz Gazebo model state messages (this is for Gazebo simulation)
     cameraState.pose.orientation = geoQuat;
     cameraState.pose.position.x = vehicleX;
     cameraState.pose.position.y = vehicleY;
     cameraState.pose.position.z = vehicleZ + cameraOffsetZ;
-    pubModelState.publish(cameraState);
+    // pubModelState.publish(cameraState);
 
     robotState.pose.orientation = geoQuat;
     robotState.pose.position.x = vehicleX;
     robotState.pose.position.y = vehicleY;
     robotState.pose.position.z = vehicleZ;
-    pubModelState.publish(robotState);
+    // pubModelState.publish(robotState);
 
     geoQuat = tf::createQuaternionMsgFromRollPitchYaw(terrainRoll, terrainPitch, 0);
 
@@ -517,14 +519,14 @@ int main(int argc, char** argv)
     lidarState.pose.position.x = vehicleX;
     lidarState.pose.position.y = vehicleY;
     lidarState.pose.position.z = vehicleZ;
-    pubModelState.publish(lidarState);
+    // pubModelState.publish(lidarState);
     imuState.pose = robotState.pose;
-    pubModelState.publish(imuState);
+    // pubModelState.publish(imuState);
     // publish 200Hz tf messages
     odomTrans.stamp_ = odomTime;
     odomTrans.setRotation(tf::Quaternion(geoQuat.x, geoQuat.y, geoQuat.z, geoQuat.w));
     odomTrans.setOrigin(tf::Vector3(vehicleX, vehicleY, vehicleZ));
-    tfBroadcaster.sendTransform(odomTrans);
+    // tfBroadcaster.sendTransform(odomTrans);
 
     status = ros::ok();
     rate.sleep();
