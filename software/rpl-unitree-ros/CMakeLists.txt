@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(rpl-unitree-ros)
 
-set(CMAKE_BUILD_TYPE Release)
-set(BUILD_STATIC_LIBS ON)
-set(BUILD_SHARED_LIBS OFF)
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -21,9 +16,6 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   tf2_sensor_msgs
 )
-
-find_package(OpenCV REQUIRED)
-find_package(PCL REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)

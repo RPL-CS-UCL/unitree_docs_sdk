@@ -50,18 +50,6 @@
   <node pkg="controller_manager" type="spawner" name="controller_spawner" respawn="false"
           output="screen" ns="$(arg robot_name)" args="joint_states_controller joint_group_position_controller"/>
 
-  <!-- <rosparam file="$(find rpl-unitree-ros)/config/$(arg gazebo_controller_config_name)" command="load" if="$(arg use_gazebo_odom)"/> -->
-  <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-      output="screen" ns="/go1_gazebo" args="joint1_position_controller joint2_position_controller joint3_position_controller joint4_position_controller joint5_position_controller joint6_position_controller joint7_position_controller joint8_position_controller joint9_position_controller joint10_position_controller joint11_position_controller joint12_position_controller joint_state_controller"/> -->
-
- <!-- <rosparam file="$(find go1_description)/config/robot_control.yaml" command="load"/> -->
-  <!-- <node pkg="controller_manager" type="spawner" name="controller_spawner" respawn="false"
-            output="screen" ns="/go1_gazebo" args="joint_state_controller
-            FL_hip_controller FL_thigh_controller FL_calf_controller
-            FR_hip_controller FR_thigh_controller FR_calf_controller
-            RL_hip_controller RL_thigh_controller RL_calf_controller
-            RR_hip_controller RR_thigh_controller RR_calf_controller "/> -->
-
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
     respawn="false" output="screen" if="$(arg use_gazebo_odom)">
     <remap from="/joint_states" to="/go1_gazebo/joint_states" />
