@@ -81,7 +81,7 @@
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -model $(arg robot_name)  
         -param robot_description -robot_namespace $(arg robot_name)"/>
 
-  <node pkg="rpl-unitree-ros" type="vehicleSimulator" name="vehicleSimulator" output="screen" required="true">
+  <!-- <node pkg="rpl-unitree-ros" type="vehicleSimulator" name="vehicleSimulator" output="screen" required="true">
     <param name="use_gazebo_time" type="bool" value="false" />
     <param name="use_gazebo_odom" type="bool" value="$(arg use_gazebo_odom)" />   
     <param name="sensorOffsetX" value="$(arg sensorOffsetX)" />
@@ -105,13 +105,20 @@
     <param name="smoothRateIncl" value="$(arg smoothRateIncl)" />
     <param name="InclFittingThre" value="$(arg InclFittingThre)" />
     <param name="maxIncl" value="$(arg maxIncl)" />
+  </node> -->
+
+  <node pkg="rpl-unitree-ros" name="publishRegisteredScan" type="publishRegisteredScan" output="screen" if="$(arg use_gazebo_odom)">
+    <param name="global_frame" value="map" />
+    <param name="sensor_frame" value="velodyne" />
   </node>
 
 
   <node pkg="rpl-unitree-ros" name="odom_pub" type="pub_odom.py" output="screen" if="$(arg use_gazebo_odom)">
     <param name="model_name" value="$(arg robot_name)" />
     <param name="pub_rate" value="100" />
-    <param name="out_frame_id" value="/gazebo_odom" />
+    <param name="out_frame_id" value="state_estimation" />
+    <param name="transform_child" value="base" />
+    <param name="transform_parent" value="map" />
   </node>
 
 </launch>

@@ -1,8 +1,8 @@
 # rpl-go-1
 
-This is a ros package to use the Go1 robot with RoboHike. It doesn't yet work, this is still in development.
+This is a ros package to use the Go1 robot with RoboHike, and more specifically the CMU nav framework
 
-![demo_screenshot](assets/system_demo.png)
+![demo_screenshot](assets/nav_gif.gif)
 
 ## Quick Start
 ```
@@ -11,33 +11,10 @@ source devel/setup.bash
 roslaunch rpl-unitree-ros system_forest.launch
 ```
 
-## CHAMP Controller
-
-This is a controller from MIT, viewable here [here](https://github.com/chvmp/champ).
-
-```
-student@ubuntu20:~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software$ git submodule update --init --recursive
-sudo apt-get install ros-noetic-ecl-threads ros-noetic-robot-localization
-```
-
-```
-catkin build -j2 go1_config champ champ_teleop champ_bringup champ_config
-roslaunch go1_config bringup.launch rviz:=true
-```
-
-```
-roslaunch go1_config bringup.launch rviz:=true description_file:=/home/student/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/unitree_ros/robots/go1_description/urdf/go1.urdf
-```
-
-```
-roslaunch champ_teleop teleop.launch
-```
-
-
 
 ## Attribution
 
-The robot models all came from Unitree's ros repo on github [here](https://github.com/unitreerobotics/unitree_ros). It also uses the CMU NAV stack.
+The robot models all came from Unitree's ros repo on github [here](https://github.com/unitreerobotics/unitree_ros). It also uses the CMU NAV stack and CHAMP as the controller currently.
 
 ## Troubleshooting
 
@@ -123,4 +100,27 @@ Submodule 'champ/include/champ' (https://github.com/chvmp/libchamp) registered f
 mz@DESKTOP-3C29OTD:~/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/champ/champ$ git submodule update
 Cloning into '/home/mz/robohike_ws/src/RPL-RoboHike/robot_docs_sdk/unitree_docs_sdk/software/champ/champ/include/champ'...
 Submodule path 'include/champ': checked out '5572f50532d197c840db2fd283b84f3e1fdb4648'
+```
+
+## CMAKE error could not find tf2_sensor_msgs
+
+```
+Errors     << rpl-unitree-ros:check /home/mz/robohike_ws/logs/rpl-unitree-ros/build.check.028.log
+CMake Error at /opt/ros/noetic/share/catkin/cmake/catkinConfig.cmake:83 (find_package):
+  Could not find a package configuration file provided by "tf2_sensor_msgs"
+  with any of the following names:
+
+    tf2_sensor_msgsConfig.cmake
+    tf2_sensor_msgs-config.cmake
+
+  Add the installation prefix of "tf2_sensor_msgs" to CMAKE_PREFIX_PATH or
+  set "tf2_sensor_msgs_DIR" to a directory containing one of the above files.
+  If "tf2_sensor_msgs" provides a separate development package or SDK, be
+  sure it has been installed.
+Call Stack (most recent call first):
+  CMakeLists.txt:15 (find_package)
+```
+
+```
+sudo apt-get install ros-noetic-tf2-sensor-msgs
 ```

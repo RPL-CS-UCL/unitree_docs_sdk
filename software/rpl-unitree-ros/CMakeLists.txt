@@ -17,7 +17,9 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   sensor_msgs
-  pcl_ros
+  tf2
+  tf2_ros
+  tf2_sensor_msgs
 )
 
 find_package(OpenCV REQUIRED)
@@ -115,10 +117,13 @@ find_package(PCL REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS
+  rospy
   roscpp
   std_msgs
   sensor_msgs
-  pcl_ros
+  tf2
+  tf2_ros
+  tf2_sensor_msgs
 )
 
 ###########
@@ -129,18 +134,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   ${catkin_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS}
-  ${PCL_INCLUDE_DIRS}
-  "${PROJECT_SOURCE_DIR}/include"
-  /usr/local/include # Location when using 'make system_install'
-  /usr/include       # More usual location (e.g. when installing using a package)
 )
-
-link_directories(
-  /usr/local/lib # Location when using 'make system_install'
-  /usr/lib       # More usual location (e.g. when installing using a package)
-)
-
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -157,8 +151,8 @@ link_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/rpl-go1_node.cpp)
 
-add_executable(vehicleSimulator src/vehicleSimulator.cpp)
-target_link_libraries(vehicleSimulator ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${PCL_LIBRARIES})
+add_executable(publishRegisteredScan src/publishRegisteredScan.cpp)
+target_link_libraries(publishRegisteredScan ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -212,17 +206,17 @@ catkin_install_python(PROGRAMS scripts/pub_odom.py scripts/twist_stamped_to_twis
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
    launch/system_forest.launch
-   config/ros_control/ros_control.yaml
-   config/links/links.yaml
-   config/gait/gait.yaml
-   config/joints/joints.yaml
+   config/go1/ros_control/ros_control.yaml
+   config/go1/links/links.yaml
+   config/go1/gait/gait.yaml
+   config/go1/joints/joints.yaml
    xacro/go1.xacro
    xacro/lidar.urdf.xacro
    xacro/rgbd_camera.urdf.xacro
    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-install(TARGETS vehicleSimulator
+install(TARGETS publishRegisteredScan
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

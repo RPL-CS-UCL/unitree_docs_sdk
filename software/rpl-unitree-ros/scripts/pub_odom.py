@@ -21,10 +21,10 @@ get_model_srv = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
 
 model_name = rospy.get_param('~model_name', 'robot')
 pub_rate = int(rospy.get_param('~pub_rate', 100))
-out_frame_id = rospy.get_param('~out_frame_id', 'gazebo_odom')
+out_frame_id = rospy.get_param('~out_frame_id', '/state_estimation')
 transform_parent = rospy.get_param('~transform_parent', 'map')
 transform_child = rospy.get_param('~transform_child', 'base')
-odom_pub=rospy.Publisher('/gazebo_odom', Odometry, queue_size=1)
+odom_pub=rospy.Publisher(out_frame_id, Odometry, queue_size=1)
 
 odom=Odometry()
 header = Header()
@@ -73,9 +73,9 @@ while not rospy.is_shutdown():
     t.transform.rotation.z = quat_array[2]
     t.transform.rotation.w = quat_array[3]
     euler_angles = euler_from_quaternion(quat_array)
-    rospy.loginfo(f"orientation: {str(euler_angles)}")
+    # rospy.loginfo(f"orientation: {str(euler_angles)}")
 
-    rospy.loginfo(f"time: {rospy.Time.now()}")
+    # rospy.loginfo(f"time: {rospy.Time.now()}")
     br.sendTransform(t)
 
     r.sleep()
