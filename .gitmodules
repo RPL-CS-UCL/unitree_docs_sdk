@@ -4,9 +4,6 @@
 [submodule "software/champ"]
 	path = software/champ
 	url = https://github.com/chvmp/champ.git
-[submodule "software/robots"]
-	path = software/robots
-	url = https://github.com/chvmp/robots.git
 [submodule "software/champ_teleop"]
 	path = software/champ_teleop
 	url = https://github.com/chvmp/champ_teleop
