@@ -81,32 +81,6 @@
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -model $(arg robot_name)  
         -param robot_description -robot_namespace $(arg robot_name)"/>
 
-  <!-- <node pkg="rpl-unitree-ros" type="vehicleSimulator" name="vehicleSimulator" output="screen" required="true">
-    <param name="use_gazebo_time" type="bool" value="false" />
-    <param name="use_gazebo_odom" type="bool" value="$(arg use_gazebo_odom)" />   
-    <param name="sensorOffsetX" value="$(arg sensorOffsetX)" />
-    <param name="sensorOffsetY" value="$(arg sensorOffsetY)" />
-    <param name="vehicleHeight" value="$(arg vehicleHeight)" />
-    <param name="cameraOffsetZ" value="$(arg cameraOffsetZ)" />
-    <param name="vehicleX" value="$(arg vehicleX)" />
-    <param name="vehicleY" value="$(arg vehicleY)" />
-    <param name="vehicleZ" value="$(arg vehicleZ)" />
-    <param name="terrainZ" value="$(arg terrainZ)" />
-    <param name="vehicleYaw" value="$(arg vehicleYaw)" />
-    <param name="terrainVoxelSize" value="$(arg terrainVoxelSize)" />
-    <param name="groundHeightThre" value="$(arg groundHeightThre)" />
-    <param name="adjustZ" value="$(arg adjustZ)" />
-    <param name="terrainRadiusZ" value="$(arg terrainRadiusZ)" />
-    <param name="minTerrainPointNumZ" value="$(arg minTerrainPointNumZ)" />
-    <param name="smoothRateZ" value="$(arg smoothRateZ)" />
-    <param name="adjustIncl" value="$(arg adjustIncl)" />
-    <param name="terrainRadiusIncl" value="$(arg terrainRadiusIncl)" />
-    <param name="minTerrainPointNumIncl" value="$(arg minTerrainPointNumIncl)" />
-    <param name="smoothRateIncl" value="$(arg smoothRateIncl)" />
-    <param name="InclFittingThre" value="$(arg InclFittingThre)" />
-    <param name="maxIncl" value="$(arg maxIncl)" />
-  </node> -->
-
   <node pkg="rpl-unitree-ros" name="publishRegisteredScan" type="publishRegisteredScan" output="screen" if="$(arg use_gazebo_odom)">
     <param name="global_frame" value="map" />
     <param name="sensor_frame" value="velodyne" />
