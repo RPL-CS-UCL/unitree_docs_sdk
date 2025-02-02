@@ -99,6 +99,7 @@
   <exec_depend>champ_base</exec_depend>
   <exec_depend>champ_bringup</exec_depend>
   <exec_depend>ecl_threads</exec_depend>
+  <exec_depend>spot_description</exec_depend>
  
 
   <!-- The export tag contains other, unspecified, tags -->

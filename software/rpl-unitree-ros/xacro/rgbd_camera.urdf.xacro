@@ -1,4 +1,7 @@
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="example">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="RGBDCamera-Settings">
+
+  <xacro:macro name="RGBDCamera-Settings" params="x:=0.05 y:=0 z:=0.15 parent:=base">
+
 
   <link name="camera">
     <collision>
@@ -11,7 +14,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="0.001 0.001 0.001"/>
+        <box size="0.01 0.01 0.01"/>
       </geometry>
     </visual>
 
@@ -24,8 +27,8 @@
 
 
   <joint name="floating_base_to_camera" type="fixed">
-      <origin rpy="0 0 0" xyz="0.2 0 0.15"/>
-      <parent link="base"/>
+      <origin rpy="0 0 0" xyz="${x} ${y} ${z}"/>
+      <parent link="${parent}"/>
       <child link="camera"/>
   </joint>
 
@@ -65,5 +68,7 @@
       </plugin>
     </sensor>
   </gazebo>
+
+  </xacro:macro>
 
 </robot>

@@ -3,10 +3,10 @@
   <arg name="use_gazebo_odom" default="false"/>
   <arg name="gazebo_controller_config_name" default="go1_control.yaml"/>
   <arg name="ros_control_file" default="$(find rpl-unitree-ros)/config/ros_control/ros_control.yaml"/>
+  <arg name="base_frame" default="base"/>
 
   <arg name="sensorOffsetX" default="0"/>
   <arg name="sensorOffsetY" default="0"/>
-  <arg name="vehicleHeight" default="0.75"/>
   <arg name="cameraOffsetZ" default="0"/>
 
   <arg name="vehicleX" default="0"/>
@@ -67,7 +67,7 @@
 
   <!-- Add Robot URDF -->
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -model $(arg robot_name)  
-        -param robot_description -robot_namespace $(arg robot_name)"/>
+        -param robot_description -robot_namespace $(arg robot_name) -z 0.1"/>
 
   <node pkg="rpl-unitree-ros" name="publishRegisteredScan" type="publishRegisteredScan" output="screen" if="$(arg use_gazebo_odom)">
     <param name="global_frame" value="map" />
@@ -79,7 +79,7 @@
     <param name="model_name" value="$(arg robot_name)" />
     <param name="pub_rate" value="100" />
     <param name="out_frame_id" value="state_estimation" />
-    <param name="transform_child" value="base" />
+    <param name="transform_child" value="$(arg base_frame)" />
     <param name="transform_parent" value="map" />
   </node>
 

@@ -205,6 +205,8 @@ install(FILES
    xacro/go1.xacro
    xacro/lidar.urdf.xacro
    xacro/rgbd_camera.urdf.xacro
+   urdf/spot_with_lidar_cam.urdf
+   urdf/go1_with_lidar_cam.urdf
    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
