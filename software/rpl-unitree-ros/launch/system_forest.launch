@@ -7,12 +7,24 @@
   <arg name="vehicleY" default="0"/>
   <arg name="terrainZ" default="0"/>
   <arg name="vehicleYaw" default="0"/>
-  <arg name="gazebo_gui" default="false"/>
+  <arg name="gazebo_gui" default="true"/>
   <arg name="checkTerrainConn" default="true"/>
   <arg name="useLocalPlanner" default="true"/>
+  <arg name="showExplorationMetrics" default="false"/>
 
-  <arg name="urdf_package" default="go1_description"/>
-  <arg name="urdf_path_and_name" default="urdf/go1.urdf"/>
+  <arg name="robot_name" default="/go1_gazebo"/>  <!-- Change this for namespacing. -->
+  <arg name="base_frame" default="base"/> <!-- Link name of floating base. Do not touch this. -->
+  <arg name="joints_map_file" default="$(find rpl-unitree-ros)/config/go1/joints/joints.yaml"/> <!--Path to list of joint names. Do not touch this. -->
+  <arg name="links_map_file" default="$(find rpl-unitree-ros)/config/go1/links/links.yaml"/> <!-- Path to list of link names. Do not touch this. -->
+  <arg name="gait_config_file" default="$(find rpl-unitree-ros)/config/go1/gait/gait.yaml"/>  <!-- Path to gait parameters. Do not touch this. -->
+
+  <arg name="use_gazebo_odom" default="true"/>
+  <param name="use_sim_time" value="true" />
+  <arg name="ros_control_file"   default="$(find rpl-unitree-ros)/config/go1/ros_control/ros_control.yaml" />
+  <arg name="joint_controller_topic" default="$(arg robot_name)/joint_group_position_controller/command" />
+
+  <arg name="urdf_package" default="rpl-unitree-ros"/>
+  <arg name="urdf_path_and_name" default="xacro/go1.xacro"/>
 
   <arg name="urdf_package_path" value="$(eval find(arg('urdf_package')) + '/' + arg('urdf_path_and_name'))" />
 
@@ -22,20 +34,10 @@
 
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(arg urdf_package_path)'" />
 
-  <node pkg="tf" type="static_transform_publisher" name="vehicleTransPublisher" args="-$(arg sensorOffsetX) -$(arg sensorOffsetY) 0 0 0 0 /sensor /vehicle 1"/>
 
-  <node pkg="tf" type="static_transform_publisher" name="sensorTransPublisher" args="0 0 $(arg cameraOffsetZ) -1.5707963 0 -1.5707963 /sensor /rgbd_camera 1"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="vehicleTransPublisher" args="$(arg sensorOffsetX) $(arg sensorOffsetY) 0 0 0 0 1 vehicle sensor" />
 
-  <node pkg="tf" type="static_transform_publisher" name="vehicleRobotPublisher" args="0 0 0 0 0 0 /vehicle /base 1"/>
-  <node pkg="tf" type="static_transform_publisher" name="baseLidarPublisher" args="0 0 0 0 0 0 /base /lidar_holder 1"/>
-
-  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
-      <param name="use_gui" value="false"/>
-  </node>
-
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
-      <param name="publish_frequency" type="double" value="1000.0"/>
-  </node>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="vehicleRobotPublisher" args="0 0 0 0 0 0 1 $(arg base_frame) vehicle"/>
 
   <!-- <include file="$(find ps3joy)/launch/ps3.launch" /> -->
 
@@ -64,14 +66,39 @@
     <arg name="terrainZ" value="$(arg terrainZ)"/>
     <arg name="vehicleYaw" value="$(arg vehicleYaw)"/>
     <arg name="gui" value="$(arg gazebo_gui)"/>
+    <arg name="use_gazebo_odom" value="$(arg use_gazebo_odom)"/>
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="ros_control_file" value="$(arg ros_control_file)"/>
   </include>
 
   <include file="$(find sensor_scan_generation)/launch/sensor_scan_generation.launch" />
 
-  <include file="$(find visualization_tools)/launch/visualization_tools.launch" >
+  <include file="$(find visualization_tools)/launch/visualization_tools.launch" if="$(arg showExplorationMetrics)">
     <arg name="world_name" value="$(arg world_name)"/>
   </include>
 
   <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" args="-d $(find vehicle_simulator)/rviz/vehicle_simulator.rviz" respawn="true"/>
+
+
+  <!-- ==================== CONTROLLER ==================== -->
+  <rosparam command="load" ns="gait"       file="$(arg gait_config_file)" />
+  <rosparam command="load" ns="links_map"  file="$(arg links_map_file)" />
+  <rosparam command="load" ns="joints_map" file="$(arg joints_map_file)" />
+
+  <node pkg="rpl-unitree-ros" name="twist_stamped_to_twist" type="twist_stamped_to_twist.py" output="screen"/>
+
+  <include file="$(find champ_bringup)/launch/include/velocity_smoother.launch">
+    <arg name="raw_cmd_vel_topic" value="/cmd_vel_twist"/>
+    <arg name="robot_cmd_vel_topic" value="/no_vel_feedback"/>
+  </include>
+
+  <node pkg="champ_base" name="champ_controller" type="quadruped_controller_node" output="screen">
+      <param name="gazebo" value="true" />
+      <param name="publish_joint_states" value="false" />
+      <param name="publish_foot_contacts" value="false" />
+      <param name="publish_joint_control" value="true" />
+      <param name="joint_controller_topic" value="$(arg joint_controller_topic)" />
+  </node>
+
 
 </launch>

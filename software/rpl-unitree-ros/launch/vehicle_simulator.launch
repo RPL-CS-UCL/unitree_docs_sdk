@@ -1,5 +1,9 @@
 <launch>
 
+  <arg name="use_gazebo_odom" default="false"/>
+  <arg name="gazebo_controller_config_name" default="go1_control.yaml"/>
+  <arg name="ros_control_file" default="$(find rpl-unitree-ros)/config/ros_control/ros_control.yaml"/>
+
   <arg name="sensorOffsetX" default="0"/>
   <arg name="sensorOffsetY" default="0"/>
   <arg name="vehicleHeight" default="0.75"/>
@@ -32,6 +36,25 @@
   <arg name="verbose" default="false"/>
   <arg name="world_name" default="garage"/>
 
+  <arg name="robot_name" default="/go1_gazebo"/>
+
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" unless="$(arg use_gazebo_odom)">
+      <param name="use_gui" value="false"/>
+  </node>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" unless="$(arg use_gazebo_odom)">
+      <param name="publish_frequency" type="double" value="1000.0"/>
+  </node>
+
+  <rosparam file="$(arg ros_control_file)" command="load"/>
+  <node pkg="controller_manager" type="spawner" name="controller_spawner" respawn="false"
+          output="screen" ns="$(arg robot_name)" args="joint_states_controller joint_group_position_controller"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen" if="$(arg use_gazebo_odom)">
+    <remap from="/joint_states" to="/go1_gazebo/joint_states" />
+  </node>
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch" >
     <arg name="paused" value="$(arg paused)"/>
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
@@ -43,40 +66,21 @@
   </include>
 
   <!-- Add Robot URDF -->
-  <param name="camera_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/rgbd_camera.urdf.xacro'" />
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_camera" args="-urdf -param /camera_description -model rgbd_camera" />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -model $(arg robot_name)  
+        -param robot_description -robot_namespace $(arg robot_name)"/>
 
-  <param name="lidar_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/lidar.urdf.xacro'" />
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_lidar" args="-urdf -param /lidar_description -model lidar" />
+  <node pkg="rpl-unitree-ros" name="publishRegisteredScan" type="publishRegisteredScan" output="screen" if="$(arg use_gazebo_odom)">
+    <param name="global_frame" value="map" />
+    <param name="sensor_frame" value="velodyne" />
+  </node>
 
-  <param name="imu_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/imu.urdf.xacro'" />
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_imu" args="-urdf -param /imu_description -model imu"/>
 
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -param /robot_description -model robot"/>
-
-  <node pkg="vehicle_simulator" type="vehicleSimulator" name="vehicleSimulator" output="screen" required="true">
-    <param name="use_gazebo_time" type="bool" value="false" />
-    <param name="sensorOffsetX" value="$(arg sensorOffsetX)" />
-    <param name="sensorOffsetY" value="$(arg sensorOffsetY)" />
-    <param name="vehicleHeight" value="$(arg vehicleHeight)" />
-    <param name="cameraOffsetZ" value="$(arg cameraOffsetZ)" />
-    <param name="vehicleX" value="$(arg vehicleX)" />
-    <param name="vehicleY" value="$(arg vehicleY)" />
-    <param name="vehicleZ" value="$(arg vehicleZ)" />
-    <param name="terrainZ" value="$(arg terrainZ)" />
-    <param name="vehicleYaw" value="$(arg vehicleYaw)" />
-    <param name="terrainVoxelSize" value="$(arg terrainVoxelSize)" />
-    <param name="groundHeightThre" value="$(arg groundHeightThre)" />
-    <param name="adjustZ" value="$(arg adjustZ)" />
-    <param name="terrainRadiusZ" value="$(arg terrainRadiusZ)" />
-    <param name="minTerrainPointNumZ" value="$(arg minTerrainPointNumZ)" />
-    <param name="smoothRateZ" value="$(arg smoothRateZ)" />
-    <param name="adjustIncl" value="$(arg adjustIncl)" />
-    <param name="terrainRadiusIncl" value="$(arg terrainRadiusIncl)" />
-    <param name="minTerrainPointNumIncl" value="$(arg minTerrainPointNumIncl)" />
-    <param name="smoothRateIncl" value="$(arg smoothRateIncl)" />
-    <param name="InclFittingThre" value="$(arg InclFittingThre)" />
-    <param name="maxIncl" value="$(arg maxIncl)" />
+  <node pkg="rpl-unitree-ros" name="odom_pub" type="pub_odom.py" output="screen" if="$(arg use_gazebo_odom)">
+    <param name="model_name" value="$(arg robot_name)" />
+    <param name="pub_rate" value="100" />
+    <param name="out_frame_id" value="state_estimation" />
+    <param name="transform_child" value="base" />
+    <param name="transform_parent" value="map" />
   </node>
 
 </launch>
