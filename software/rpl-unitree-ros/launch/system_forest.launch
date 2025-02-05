@@ -1,7 +1,6 @@
 <launch>
 
   <arg name="world_name" default="forest"/>
-  <arg name="vehicleHeight" default="0.75"/>
   <arg name="cameraOffsetZ" default="0.15"/>
   <arg name="vehicleX" default="0"/>
   <arg name="vehicleY" default="0"/>
@@ -14,13 +13,19 @@
 
   <arg name="robot_name" default="/go1_gazebo"/>  <!-- Change this for namespacing. -->
   <arg name="base_frame" default="base"/> <!-- Link name of floating base. Do not touch this. -->
-  <arg name="joints_map_file" default="$(find rpl-unitree-ros)/config/go1/joints/joints.yaml"/> <!--Path to list of joint names. Do not touch this. -->
-  <arg name="links_map_file" default="$(find rpl-unitree-ros)/config/go1/links/links.yaml"/> <!-- Path to list of link names. Do not touch this. -->
-  <arg name="gait_config_file" default="$(find rpl-unitree-ros)/config/go1/gait/gait.yaml"/>  <!-- Path to gait parameters. Do not touch this. -->
+  
+  <arg name="controller_config_package" default="rpl-unitree-ros" />
+  <arg name="controller_config_subpath" default="/config/go1" />
+  <arg name="controller_config_package_path" value="$(eval find(arg('controller_config_package')) + arg('controller_config_subpath'))" />
+
+  
+  <arg name="joints_map_file" default="$(arg controller_config_package_path)/joints/joints.yaml"/> <!--Path to list of joint names. Do not touch this. -->
+  <arg name="links_map_file" default="$(arg controller_config_package_path)/links/links.yaml"/> <!-- Path to list of link names. Do not touch this. -->
+  <arg name="gait_config_file" default="$(arg controller_config_package_path)/gait/gait.yaml"/>  <!-- Path to gait parameters. Do not touch this. -->
 
   <arg name="use_gazebo_odom" default="true"/>
   <param name="use_sim_time" value="true" />
-  <arg name="ros_control_file"   default="$(find rpl-unitree-ros)/config/go1/ros_control/ros_control.yaml" />
+  <arg name="ros_control_file"   default="$(arg controller_config_package_path)/ros_control/ros_control.yaml" />
   <arg name="joint_controller_topic" default="$(arg robot_name)/joint_group_position_controller/command" />
 
   <arg name="urdf_package" default="rpl-unitree-ros"/>
@@ -57,7 +62,6 @@
 
   <include file="$(find rpl-unitree-ros)/launch/vehicle_simulator.launch" >
     <arg name="world_name" value="$(arg world_name)"/>
-    <arg name="vehicleHeight" value="$(arg vehicleHeight)"/>
     <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
     <arg name="sensorOffsetX" value="$(arg sensorOffsetX)"/>
     <arg name="sensorOffsetY" value="$(arg sensorOffsetY)"/>
@@ -69,6 +73,7 @@
     <arg name="use_gazebo_odom" value="$(arg use_gazebo_odom)"/>
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="ros_control_file" value="$(arg ros_control_file)"/>
+    <arg name="base_frame" value="$(arg base_frame)"/>
   </include>
 
   <include file="$(find sensor_scan_generation)/launch/sensor_scan_generation.launch" />
