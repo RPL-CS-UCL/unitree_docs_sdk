@@ -8,6 +8,10 @@ This is a ros package to use the Go1 robot with RoboHike, and more specifically 
 
 For the Go1:
 ```
+mdkir -p ~/robohike_ws/src
+git clone https://github.com/RPL-CS-UCL/RPL-RoboHike --recurse-submodules robohike_ws/src/RPL-RoboHike
+cd robohike_ws
+robo_hike_ws/src/RPL-RoboHike/src/baseline_navigation/cmu_autonomous_exploration_development/src/vehicle_simulator/mesh/download_environments.sh
 catkin build rpl-unitree-ros
 source devel/setup.bash
 roslaunch rpl-unitree-ros system_forest.launch
