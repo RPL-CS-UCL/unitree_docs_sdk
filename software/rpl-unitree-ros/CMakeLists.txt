@@ -198,6 +198,9 @@ catkin_install_python(PROGRAMS scripts/pub_odom.py scripts/twist_stamped_to_twis
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
    launch/system_forest.launch
+   launch/vehicle_simulator.launch
+   launch/sensor_backback.launch
+   config/livox/livox_lidar_config.json
    config/go1/ros_control/ros_control.yaml
    config/go1/links/links.yaml
    config/go1/gait/gait.yaml

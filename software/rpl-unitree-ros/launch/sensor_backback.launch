@@ -1,0 +1,35 @@
+<launch>
+
+
+	<arg name="rviz" default="true" />
+
+    <!-- ####### Customized Fastlio2 parameters for mid360 ###### -->
+	<!-- ####### Isolate parameters w.r.t. the original mid360.yaml -->
+	<node pkg="fast_lio" type="fastlio_mapping" name="laserMapping" output="screen" > 
+		<rosparam command="load" file="$(find fast_lio)/config/mid360.yaml" />
+		<param name="feature_extract_enable" type="bool" value="0"/>
+		<param name="point_filter_num" type="int" value="3"/>
+		<param name="max_iteration" type="int" value="3" />
+		<param name="filter_size_surf" type="double" value="0.5" />
+		<param name="filter_size_map" type="double" value="0.5" />
+		<param name="cube_side_length" type="double" value="1000" />
+		<param name="runtime_pos_log_enable" type="bool" value="0" />
+		<param name="common/lid_topic" type="string" value="/livox/lidar" />
+		<param name="common/imu_topic" type="string" value="/livox/imu" />"
+		<param name="preprocess/blind" value="0.0" />
+		<param name="publish/path_en" value="true" />
+		<param name="publish/scan_publish_en" value="true" />
+		<param name="publish/dense_publish_en" value="true" />
+		<param name="publish/scan_bodyframe_pub_en" value="true" />
+		<param name="pcd_save/pcd_save_en" value="false" />
+	</node>
+
+    <include file="$(find livox_ros_driver)/launch/livox_lidar_msg.launch">
+    </include>
+
+    <!-- RVIZ -->
+	<group if="$(arg rviz)">
+		<node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" />
+	</group>
+
+</launch>
