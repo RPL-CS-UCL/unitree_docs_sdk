@@ -25,6 +25,7 @@
 	</node>
 
     <include file="$(find livox_ros_driver)/launch/livox_lidar_msg.launch">
+		<arg name="user_config_path" value="$(find rpl-unitree-ros)/config/livox/livox_lidar_config.json" />	
     </include>
 
     <!-- RVIZ -->

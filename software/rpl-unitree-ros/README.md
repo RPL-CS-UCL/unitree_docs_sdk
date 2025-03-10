@@ -24,6 +24,12 @@ source devel/setup.bash
 roslaunch rpl-unitree-ros system_forest.launch robot_name:=spot_gazebo base_frame:=body controller_config_subpath:="/config/spot" urdf_package:=rpl-unitree-ros urdf_path_and_name:=xacro/spot.urdf.xacro
 ```
 
+## Hardware Notes
+
+For the livox mid 360, you need to get the ID from a sticker on it and put it in the .json config file in this repo.
+
+Also, need to set static ip for your computer as it pushes via udp to 92.168.1.50.
+
 ## Attribution
 
 The robot models and guidance on .xacro files came from Unitree's ros repo on github [here](https://github.com/unitreerobotics/unitree_ros). They also came from the spot_description repo [here](https://github.com/chvmp/spot_ros/tree/gazebo) and [here](https://github.com/heuristicus/spot_ros). It also uses the CMU NAV stack and CHAMP as the controller currently.
