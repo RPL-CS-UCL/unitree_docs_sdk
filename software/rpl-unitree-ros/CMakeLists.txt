@@ -200,11 +200,12 @@ install(FILES
    launch/system_forest.launch
    launch/vehicle_simulator.launch
    launch/sensor_backback.launch
-   config/livox/livox_lidar_config.json
    config/go1/ros_control/ros_control.yaml
    config/go1/links/links.yaml
    config/go1/gait/gait.yaml
    config/go1/joints/joints.yaml
+   config/livox/livox_lidar_config.json
+   config/livox/livox_lidar_config2.json
    xacro/go1.xacro
    xacro/lidar.urdf.xacro
    xacro/rgbd_camera.urdf.xacro

@@ -26,9 +26,9 @@ roslaunch rpl-unitree-ros system_forest.launch robot_name:=spot_gazebo base_fram
 
 ## Hardware Notes
 
-For the livox mid 360, you need to get the ID from a sticker on it and put it in the .json config file in this repo.
+For the livox mid 360, you need to get the ID from a sticker on it. The IP address by default will end with the last 2 numbers in the ID, and this needs to be input into the .json config file in this repo.
 
-Also, need to set static ip for your computer as it pushes via udp to 92.168.1.50.
+Also, need to set static ip for your computer as it pushes via udp. Set it to 192.168.1.50.
 
 ## Attribution
 

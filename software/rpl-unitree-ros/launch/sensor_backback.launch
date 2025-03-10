@@ -24,8 +24,13 @@
 		<param name="pcd_save/pcd_save_en" value="false" />
 	</node>
 
-    <include file="$(find livox_ros_driver)/launch/livox_lidar_msg.launch">
-		<arg name="user_config_path" value="$(find rpl-unitree-ros)/config/livox/livox_lidar_config.json" />	
+    <include file="$(find livox_ros_driver2)/launch/msg_MID360.launch">
+		<arg name="publish_freq" value="10.0" />
+		<arg name="user_config_path" value="$(find rpl-unitree-ros)/config/livox/livox_lidar_config2.json" />
+    </include>
+
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+		<arg name="align_depth" value="true" />
     </include>
 
     <!-- RVIZ -->

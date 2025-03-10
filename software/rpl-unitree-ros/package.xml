@@ -99,8 +99,9 @@
   <exec_depend>ecl_threads</exec_depend>
   <exec_depend>spot_description</exec_depend>
   <exec_depend>fast_lio</exec_depend>
-  <exec_depend>livox_ros_driver</exec_depend>
-
+  <exec_depend>livox_ros_driver2</exec_depend>
+  <exec_depend>ros-noetic-realsense2-camera</exec_depend>
+  
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
