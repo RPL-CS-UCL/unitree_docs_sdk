@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(rpl-unitree-ros)
 
+option(UNISDK "whether to build the unitree SDK and the controller node." OFF)
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -18,8 +20,6 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -122,21 +122,47 @@ catkin_package(
 ## Build ##
 ###########
 
+# add_subdirectory(unitree_legged_sdk)
+
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/rpl-go1.cpp
-# )
+if (UNISDK)
+  # these are for unitree_legged_sdk
+  find_package(Boost REQUIRED COMPONENTS system)
+  find_package(lcm REQUIRED)
+
+  set(UNITREE_DIR ${CMAKE_CURRENT_LIST_DIR}/unitree_legged_sdk/include/unitree_legged_sdk)
+  set(HEADER_FILES ${UNITREE_DIR}/comm.h ${UNITREE_DIR}/go1_const.h ${UNITREE_DIR}/lcm_server.h ${UNITREE_DIR}/lcm.h ${UNITREE_DIR}/loop.h ${UNITREE_DIR}/quadruped.h ${UNITREE_DIR}/safety.h ${UNITREE_DIR}/udp.h ${UNITREE_DIR}/unitree_joystick.h ${UNITREE_DIR}/unitree_legged_sdk.h)
+
+  set(EXTRA_LIBS -pthread ${CMAKE_SOURCE_DIR}/unitree_legged_sdk/lib/libunitree_legged_sdk_arm64.so lcm)
+
+  ## Declare a C++ library
+  add_library(${PROJECT_NAME}_unitree ${HEADER_FILES} ${Boost_INCLUDE_DIRS})
+  set_target_properties(${PROJECT_NAME}_unitree PROPERTIES LINKER_LANGUAGE CXX)
+  add_dependencies(${PROJECT_NAME}_unitree ${Boost_LIBRARIES} lcm)
+  target_include_directories(${PROJECT_NAME}_unitree PUBLIC unitree_legged_sdk/include)
+  target_link_libraries(${PROJECT_NAME}_unitree ${EXTRA_LIBS})
+
+  add_executable(go1Controller src/control_go1.cpp)
+  target_link_libraries(go1Controller ${catkin_LIBRARIES} ${PROJECT_NAME}_unitree)
+
+  install(TARGETS go1Controller
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  )
+
+  
+endif(UNISDK)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# target_link_libraries(${PROJECT_NAME}_unitree ${LCM_NAMESPACE}lcm)
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
@@ -219,6 +245,8 @@ install(TARGETS publishRegisteredScan
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+
 
 
 #############

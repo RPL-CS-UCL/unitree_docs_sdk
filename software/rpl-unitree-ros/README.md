@@ -30,6 +30,12 @@ For the livox mid 360, you need to get the ID from a sticker on it. The IP addre
 
 Also, need to set static ip for your computer as it pushes via udp. Set it to 192.168.1.50.
 
+For the realsense, jetson nano's have particular setups compared to other computers (https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_jetson.md), because of the jetpack os. Some people say that libuvc install works: https://github.com/IntelRealSense/librealsense/issues/13664. Other people downgrade to jetpack 6.0 and then patch the kernel.
+
+```
+catkin build rpl-unitree-ros -DUNISDK=ON
+```
+
 ## Attribution
 
 The robot models and guidance on .xacro files came from Unitree's ros repo on github [here](https://github.com/unitreerobotics/unitree_ros). They also came from the spot_description repo [here](https://github.com/chvmp/spot_ros/tree/gazebo) and [here](https://github.com/heuristicus/spot_ros). It also uses the CMU NAV stack and CHAMP as the controller currently.
