@@ -4,7 +4,10 @@
 
     <xacro:arg name="DEBUG" default="false"/>
     <xacro:arg name="lidar_height" default="0.2"/>
+    <xacro:arg name="lidar_ry" default="{15/180 * pi}"/>
+    <xacro:arg name="name" default="velodyne"/>    
     <xacro:arg name="camera_" default="0.2"/>
+
 
     <xacro:include filename="$(find go1_description)/xacro/const.xacro"/>
     <xacro:include filename="$(find go1_description)/xacro/materials.xacro"/>
@@ -15,7 +18,7 @@
     <xacro:include filename="$(find go1_description)/xacro/ultraSound.xacro"/>
     <xacro:include filename="$(find rpl-unitree-ros)/xacro/lidar.urdf.xacro"/>
 
-    <xacro:LIDAR-Settings parent="base" x="0" y="0" z="0.2" >
+    <xacro:LIDAR-Settings parent="base" name="$(arg name)" ry="$(arg lidar_ry)" z="$(arg lidar_height)" >
     </xacro:LIDAR-Settings>
 
     <xacro:include filename="$(find rpl-unitree-ros)/xacro/rgbd_camera.urdf.xacro"/>

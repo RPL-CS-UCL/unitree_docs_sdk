@@ -7,8 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /PointCloud21/Status1
-        - /TF1
-        - /TF1/Frames1
+        - /TF1/Status1
       Splitter Ratio: 0.5
     Tree Height: 1085
   - Class: rviz/Selection
@@ -89,6 +88,90 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        FL_calf:
+          Value: false
+        FL_calf_rotor:
+          Value: false
+        FL_foot:
+          Value: false
+        FL_hip:
+          Value: false
+        FL_hip_rotor:
+          Value: false
+        FL_thigh:
+          Value: false
+        FL_thigh_rotor:
+          Value: false
+        FR_calf:
+          Value: false
+        FR_calf_rotor:
+          Value: false
+        FR_foot:
+          Value: false
+        FR_hip:
+          Value: false
+        FR_hip_rotor:
+          Value: false
+        FR_thigh:
+          Value: false
+        FR_thigh_rotor:
+          Value: false
+        RL_calf:
+          Value: false
+        RL_calf_rotor:
+          Value: false
+        RL_foot:
+          Value: false
+        RL_hip:
+          Value: false
+        RL_hip_rotor:
+          Value: false
+        RL_thigh:
+          Value: false
+        RL_thigh_rotor:
+          Value: false
+        RR_calf:
+          Value: false
+        RR_calf_rotor:
+          Value: false
+        RR_foot:
+          Value: false
+        RR_hip:
+          Value: false
+        RR_hip_rotor:
+          Value: false
+        RR_thigh:
+          Value: false
+        RR_thigh_rotor:
+          Value: false
+        base:
+          Value: true
+        camera:
+          Value: false
+        camera_chin:
+          Value: false
+        camera_face:
+          Value: false
+        camera_laserscan_link_left:
+          Value: false
+        camera_laserscan_link_right:
+          Value: false
+        camera_left:
+          Value: false
+        camera_optical_chin:
+          Value: false
+        camera_optical_face:
+          Value: false
+        camera_optical_left:
+          Value: false
+        camera_optical_rearDown:
+          Value: false
+        camera_optical_right:
+          Value: false
+        camera_rearDown:
+          Value: false
+        camera_right:
+          Value: false
         fastlio_body:
           Value: false
         fastlio_gravity_estimate:
@@ -99,6 +182,28 @@ Visualization Manager:
           Value: true
         imu_forward_prop:
           Value: false
+        imu_link:
+          Value: false
+        livox:
+          Value: false
+        livox_base:
+          Value: false
+        livox_base_link:
+          Value: false
+        map:
+          Value: true
+        sensor:
+          Value: false
+        trunk:
+          Value: false
+        ultraSound_face:
+          Value: false
+        ultraSound_left:
+          Value: false
+        ultraSound_right:
+          Value: false
+        vehicle:
+          Value: false
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -106,22 +211,128 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        fastlio_world:
-          fastlio_body:
+        FL_calf:
+          FL_foot:
             {}
-          fastlio_gravity_estimate:
+        FL_hip:
+          FL_thigh_rotor:
             {}
-          fastlio_gravity_init:
+        FL_thigh:
+          FL_calf_rotor:
             {}
-          imu_forward_prop:
+        FR_calf:
+          FR_foot:
             {}
+        FR_hip:
+          FR_thigh_rotor:
+            {}
+        FR_thigh:
+          FR_calf_rotor:
+            {}
+        RL_calf:
+          RL_foot:
+            {}
+        RL_hip:
+          RL_thigh_rotor:
+            {}
+        RL_thigh:
+          RL_calf_rotor:
+            {}
+        RR_calf:
+          RR_foot:
+            {}
+        RR_hip:
+          RR_thigh_rotor:
+            {}
+        RR_thigh:
+          RR_calf_rotor:
+            {}
+        map:
+          fastlio_world:
+            fastlio_body:
+              base:
+                camera:
+                  {}
+                livox_base_link:
+                  livox:
+                    {}
+                trunk:
+                  FL_hip_rotor:
+                    {}
+                  FR_hip_rotor:
+                    {}
+                  RL_hip_rotor:
+                    {}
+                  RR_hip_rotor:
+                    {}
+                  camera_chin:
+                    camera_optical_chin:
+                      {}
+                  camera_face:
+                    camera_optical_face:
+                      {}
+                  camera_left:
+                    camera_laserscan_link_left:
+                      {}
+                    camera_optical_left:
+                      {}
+                  camera_rearDown:
+                    camera_optical_rearDown:
+                      {}
+                  camera_right:
+                    camera_laserscan_link_right:
+                      {}
+                    camera_optical_right:
+                      {}
+                  imu_link:
+                    {}
+                  ultraSound_face:
+                    {}
+                  ultraSound_left:
+                    {}
+                  ultraSound_right:
+                    {}
+                vehicle:
+                  sensor:
+                    livox_base:
+                      {}
+            fastlio_gravity_estimate:
+              {}
+            fastlio_gravity_init:
+              {}
+            imu_forward_prop:
+              {}
       Update Interval: 0
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Queue Size: 10
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /path_fastlio
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: fastlio_world
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -145,7 +356,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 6.966549873352051
+      Distance: 9.707469940185547
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -161,9 +372,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.4997963905334473
+      Pitch: 0.4747961461544037
       Target Frame: <Fixed Frame>
-      Yaw: 3.1553993225097656
+      Yaw: 1.4703984260559082
     Saved: ~
 Window Geometry:
   Displays:
