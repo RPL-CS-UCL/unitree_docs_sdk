@@ -20,7 +20,7 @@
 		<param name="publish_frequency" type="double" value="200.0"/>
 	</node>
 
-	<node pkg="tf2_ros" type="static_transform_publisher" name="fastlioworld" args="0 0 0 0 0.131 0 0.991 map fastlio_world" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="fastlioworld" args="0 0 0.5 0 0.131 0 0.991 map fastlio_world" />
 	<node pkg="tf2_ros" type="static_transform_publisher" name="fastliobody" args="0 0 -0.245 0 -0.131 0 0.991 fastlio_body base" />
   	
  	<node pkg="tf2_ros" type="static_transform_publisher" name="vehicleTransPublisher" args="$(arg sensorOffsetX) $(arg sensorOffsetY) 0 0 0 0 1 vehicle sensor" />
@@ -71,7 +71,7 @@
 		<arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
 	</include>
 
-	<!-- <node pkg="rpl-unitree-ros" name="go1Controller" type="go1Controller" output="screen"/> -->
+	<node pkg="rpl-unitree-ros" name="go1Controller" type="go1Controller" output="screen"/>
 
 	<node pkg="rpl-unitree-ros" name="publishRegisteredScan" type="publishRegisteredScan" output="screen">
 		<param name="global_frame" value="map" />

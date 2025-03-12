@@ -52,6 +52,49 @@ xhost +local:root && docker run --rm -it --network host --nvidia --x11 --devices
 export ROS_MASTER_URI=http://192.168.1.44:11311
 ```
 
+
+For routing, you first have to set the the ethernet port to have priority to talk with livox. Then you can set the wifi to have prioritty to talk to the extra networrk computer. Thhen you can perhaps set softwwarre ethernet-
+```
+student@ubuntu:~$ sudo apt-get install ifmetric
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  libglfw3 librealsense2 librealsense2-gl
+Use 'sudo apt autoremove' to remove them.
+The following NEW packages will be installed
+  ifmetric
+0 to upgrade, 1 to newly install, 0 to remove and 313 not to upgrade.
+Need to get 11.0 kB of archives.
+After this operation, 37.9 kB of additional disk space will be used.
+Get:1 http://ports.ubuntu.com/ubuntu-ports jammy/universe arm64 ifmetric arm64 0.3-5 [11.0 kB]
+Fetched 11.0 kB in 0s (205 kB/s)     
+ydebconf: Delaying package configuration, since apt-utils is not installed.
+Selecting previously unselected package ifmetric.
+(Reading database ... 205632 files and directories currently installed.)
+Preparing to unpack .../ifmetric_0.3-5_arm64.deb ...
+Unpacking ifmetric (0.3-5) ...
+Setting up ifmetric (0.3-5) ...
+Processing triggers for man-db (2.10.2-1) ...
+student@ubuntu:~$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.1.1     0.0.0.0         UG    600    0        0 wlP1p1s0
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 eno1
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+192.168.1.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
+192.168.1.0     0.0.0.0         255.255.255.0   U     600    0        0 wlP1p1s0
+student@ubuntu:~$ sudo ifmetric wlP1p1s0 50
+student@ubuntu:~$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.1.1     0.0.0.0         UG    50     0        0 wlP1p1s0
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 eno1
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+192.168.1.0     0.0.0.0         255.255.255.0   U     50     0        0 wlP1p1s0
+192.168.1.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
+```
+
 ### jax on real robot
 using python3.10
 ```python -m pip install jax[cuda12_local]==0.4.35.dev20241015+b076890 jaxlib==0.4.35.dev20241015 --index=https://pypi.jetson-ai-lab.dev/jp6/cu126
