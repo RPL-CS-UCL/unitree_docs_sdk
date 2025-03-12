@@ -98,6 +98,20 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 192.168.1.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
 ```
 
+publishing waypoint
+```
+rostopic pub -1 /way_point geometry_msgs/PointStamped "header:
+  seq: 0
+  stamp:
+    secs: 0
+    nsecs: 0
+  frame_id: 'map'
+point:
+  x: 1.0
+  y: 0.0
+  z: 0.0"
+```
+
 ### jax on real robot
 using python3.10
 ```python -m pip install jax[cuda12_local]==0.4.35.dev20241015+b076890 jaxlib==0.4.35.dev20241015 --index=https://pypi.jetson-ai-lab.dev/jp6/cu126
