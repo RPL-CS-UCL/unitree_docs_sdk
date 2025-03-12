@@ -33,7 +33,38 @@ Go1Controller(ros::NodeHandle *nh, float dt = 0.002, float deadmans_switch_time=
   {
     udp_.Recv();
     // could publish here
-    // udp_.GetRecv(state_);
+    udp_.GetRecv(state_);
+    ROS_INFO("level flag: %d", state_.levelFlag);
+    ROS_INFO("mode: %d", state_.mode);
+
+	// typedef struct
+	// {
+	// 	uint8_t levelFlag;
+	// 	uint16_t commVersion;
+	// 	uint16_t robotID;
+	// 	uint32_t SN;
+	// 	uint8_t bandWidth;
+	// 	uint8_t mode;
+	// 	float progress;
+	// 	IMU imu;
+	// 	uint8_t gaitType;                  // 0.idle  1.trot  2.trot running  3.climb stair
+	// 	float footRaiseHeight;             // (unit: m, default: 0.08m), foot up height while walking
+	// 	float position[3];                 // (unit: m), from own odometry in inertial frame, usually drift
+	// 	float bodyHeight;                  // (unit: m, default: 0.28m),
+	// 	float velocity[3];                 // (unit: m/s), forwardSpeed, sideSpeed, rotateSpeed in body frame
+	// 	float yawSpeed;                    // (unit: rad/s), rotateSpeed in body frame        
+	// 	Cartesian footPosition2Body[4];    // foot position relative to body
+	// 	Cartesian footSpeed2Body[4];       // foot speed relative to body
+	// 	int8_t temperature[20];
+	// 	BmsState bms;
+	// 	int16_t footForce[4];
+	// 	int16_t footForceEst[4];
+	// 	uint8_t wirelessRemote[40];
+	// 	uint32_t reserve;
+	// 	uint32_t crc;
+	// } HighState;                           // high level feedback
+
+
   }
   void UDPSend()
   {
@@ -131,7 +162,7 @@ int main(int argc, char** argv)
 
     LoopFunc loop_control("control_loop", dt,    boost::bind(&Go1Controller::CheckControl, &controller));
     LoopFunc loop_udpSend("udp_send",     dt, 3, boost::bind(&Go1Controller::UDPSend,      &controller));
-    LoopFunc loop_udpRecv("udp_recv",     dt, 3, boost::bind(&Go1Controller::UDPRecv,      &controller));
+    LoopFunc loop_udpRecv("udp_recv",     0.5, 3, boost::bind(&Go1Controller::UDPRecv,      &controller));
 
     loop_udpSend.start();
     loop_udpRecv.start();

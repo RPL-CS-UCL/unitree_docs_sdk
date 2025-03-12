@@ -48,7 +48,7 @@ If using a nano, setup for the nano is a bit different and you need to flash and
 
 On another computer connected to the same network:
 ```
-xhost +local:root && docker run --rm -it --network host --nvidia --x11 --devices /dev/dri -e DISPLAY -e QT_X11_NO_MITSHM=1 -e XAUTHORITY=/tmp/.docker.xauth -v /tmp/.X11-units:/tmp/.X11-unix:rw -v ~/.Xauthority:/root/.Xauthority:rw -v /home/student/unitree_docs_sdk:/uni osrf/ros:noetic-desktop-full && xhost -local:root
+xhost +local:root && docker run --rm -it --network host --runtime nvidia --device /dev/dri -e DISPLAY -e QT_X11_NO_MITSHM=1 -e XAUTHORITY=/tmp/.docker.xauth -v /tmp/.X11-units:/tmp/.X11-unix:rw -v ~/.Xauthority:/root/.Xauthority:rw -v /home/student/robohike_ws:/robohike_ws osrf/ros:noetic-desktop-full && xhost -local:root
 export ROS_MASTER_URI=http://192.168.1.40:11311
 catkin_make --only-pkg-with-deps waypoint_rviz_plugin
 source devel/setup.bash
@@ -98,6 +98,11 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 192.168.1.0     0.0.0.0         255.255.255.0   U     100    0        0 eno1
 ```
 
+can pluginto orin via serial console, mini usb cable
+```
+sudo minicom -D /dev/ttyACM0 -8 -b 115200
+```
+
 publishing waypoint
 ```
 rostopic pub -1 /way_point geometry_msgs/PointStamped "header:
@@ -107,9 +112,9 @@ rostopic pub -1 /way_point geometry_msgs/PointStamped "header:
     nsecs: 0
   frame_id: 'map'
 point:
-  x: 1.0
-  y: 0.0
-  z: 0.0"
+  x: 0.25
+  y: 0
+  z: 0"
 ```
 
 ### jax on real robot
