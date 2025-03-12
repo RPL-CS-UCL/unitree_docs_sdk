@@ -4,7 +4,7 @@
 
     <xacro:arg name="DEBUG" default="false"/>
     <xacro:arg name="lidar_height" default="0.2"/>
-    <xacro:arg name="lidar_ry" default="{15/180 * pi}"/>
+    <xacro:arg name="lidar_ry" default="0.0"/>
     <xacro:arg name="name" default="velodyne"/>    
     <xacro:arg name="camera_" default="0.2"/>
 

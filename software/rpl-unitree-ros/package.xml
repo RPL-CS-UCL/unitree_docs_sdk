@@ -101,6 +101,7 @@
   <exec_depend>fast_lio</exec_depend>
   <exec_depend>livox_ros_driver2</exec_depend>
   <exec_depend>ros-noetic-realsense2-camera</exec_depend>
+  <exec_depend>waypoint_rviz_plugin</exec_depend>
   
   <!-- The export tag contains other, unspecified, tags -->
   <export>
