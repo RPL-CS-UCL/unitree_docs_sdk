@@ -36,6 +36,27 @@ For the realsense, jetson nano's have particular setups compared to other comput
 catkin build rpl-unitree-ros -DUNISDK=ON
 ```
 
+For this we will use Jetson Orin. At a high level we install the Nvdidia SDK Manager which allows us to flash the Jetson Orin. Then we connect keyboard/monitor and try our tests.
+
+
+The SDK Manager install steps are [here](https://docs.nvidia.com/sdk-manager/download-run-sdkm/index.html). Once this has been installed you will run it. You can plugin the jetson orin via usb c cable to a host computer running ubuntu with the SDK Manager installed. It also needs power via adaptor in box (plug it into back where dc power jack is, the usb c there seems to do the trick). For the Orin, steps to use SDK manager are [here](https://docs.nvidia.com/jetson/archives/r35.2.1/DeveloperGuide/text/IN/QuickStart.html). 
+
+I found that the Orin I had was already flashed with some stuff. Plugging in an HDMI monitor and keyboard and mouse for the first boot let me create a username/password and boot to Ubuntu. From here I connected to the Lab's wifi network (not eduroam) to get an IP address. The SDK Manager to do automatic flashing needs the IP address as well as the username/password (it does an SSH connection). I also didn't let the SDK manager install anything onto the host, as I had limited disk space. I only selected target stuff for the orin during that step.
+
+
+If using a nano, setup for the nano is a bit different and you need to flash and SD card, steps [here](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write). 
+
+On another computer connected to the same network:
+```
+xhost +local:root && docker run --rm -it --network host --nvidia --x11 --devices /dev/dri -e DISPLAY -e QT_X11_NO_MITSHM=1 -e XAUTHORITY=/tmp/.docker.xauth -v /tmp/.X11-units:/tmp/.X11-unix:rw -v ~/.Xauthority:/root/.Xauthority:rw -v /home/student/unitree_docs_sdk:/uni osrf/ros:noetic-desktop-full && xhost -local:root
+export ROS_MASTER_URI=http://192.168.1.44:11311
+```
+
+### jax on real robot
+using python3.10
+```python -m pip install jax[cuda12_local]==0.4.35.dev20241015+b076890 jaxlib==0.4.35.dev20241015 --index=https://pypi.jetson-ai-lab.dev/jp6/cu126
+```
+
 ## Attribution
 
 The robot models and guidance on .xacro files came from Unitree's ros repo on github [here](https://github.com/unitreerobotics/unitree_ros). They also came from the spot_description repo [here](https://github.com/chvmp/spot_ros/tree/gazebo) and [here](https://github.com/heuristicus/spot_ros). It also uses the CMU NAV stack and CHAMP as the controller currently.
