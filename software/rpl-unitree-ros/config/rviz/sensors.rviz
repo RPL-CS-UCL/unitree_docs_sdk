@@ -6,15 +6,12 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /PointCloud21/Status1
       Splitter Ratio: 0.5
     Tree Height: 725
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
     Expanded:
-      - /2D Pose Estimate1
-      - /2D Nav Goal1
       - /Publish Point1
     Name: Tool Properties
     Splitter Ratio: 0.5886790156364441
@@ -52,7 +49,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 1
+    - Alpha: 0.20000000298023224
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
         Max Value: 10
@@ -62,9 +59,9 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz/PointCloud2
       Color: 255; 255; 255
-      Color Transformer: Intensity
-      Decay Time: 0
-      Enabled: false
+      Color Transformer: FlatColor
+      Decay Time: 10
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Min Color: 0; 0; 0
@@ -72,14 +69,14 @@ Visualization Manager:
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
-      Size (Pixels): 3
+      Size (Pixels): 2
       Size (m): 0.009999999776482582
-      Style: Flat Squares
-      Topic: /cloud_registered
+      Style: Points
+      Topic: /registered_scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Class: rviz/TF
       Enabled: true
       Filter (blacklist): ""
@@ -171,28 +168,14 @@ Visualization Manager:
           Value: false
         camera_right:
           Value: false
-        fastlio_body:
-          Value: false
-        fastlio_gravity_estimate:
-          Value: false
-        fastlio_gravity_init:
-          Value: false
-        fastlio_world:
-          Value: true
-        imu_forward_prop:
-          Value: false
         imu_link:
-          Value: false
-        livox:
-          Value: false
-        livox_base:
-          Value: false
-        livox_base_link:
           Value: false
         map:
           Value: true
         sensor:
           Value: false
+        sensor_at_scan:
+          Value: true
         trunk:
           Value: false
         ultraSound_face:
@@ -202,7 +185,11 @@ Visualization Manager:
         ultraSound_right:
           Value: false
         vehicle:
-          Value: false
+          Value: true
+        velodyne:
+          Value: true
+        velodyne_base_link:
+          Value: true
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -210,96 +197,90 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        FL_calf:
-          FL_foot:
-            {}
-        FL_hip:
-          FL_thigh_rotor:
-            {}
-        FL_thigh:
-          FL_calf_rotor:
-            {}
-        FR_calf:
-          FR_foot:
-            {}
-        FR_hip:
-          FR_thigh_rotor:
-            {}
-        FR_thigh:
-          FR_calf_rotor:
-            {}
-        RL_calf:
-          RL_foot:
-            {}
-        RL_hip:
-          RL_thigh_rotor:
-            {}
-        RL_thigh:
-          RL_calf_rotor:
-            {}
-        RR_calf:
-          RR_foot:
-            {}
-        RR_hip:
-          RR_thigh_rotor:
-            {}
-        RR_thigh:
-          RR_calf_rotor:
-            {}
         map:
-          fastlio_world:
-            fastlio_body:
-              base:
-                camera:
+          base:
+            camera:
+              {}
+            trunk:
+              FL_hip:
+                FL_thigh:
+                  FL_calf:
+                    FL_foot:
+                      {}
+                  FL_calf_rotor:
+                    {}
+                FL_thigh_rotor:
                   {}
-                trunk:
-                  FL_hip_rotor:
-                    {}
-                  FR_hip_rotor:
-                    {}
-                  RL_hip_rotor:
-                    {}
-                  RR_hip_rotor:
-                    {}
-                  camera_chin:
-                    camera_optical_chin:
+              FL_hip_rotor:
+                {}
+              FR_hip:
+                FR_thigh:
+                  FR_calf:
+                    FR_foot:
                       {}
-                  camera_face:
-                    camera_optical_face:
-                      {}
-                  camera_left:
-                    camera_laserscan_link_left:
-                      {}
-                    camera_optical_left:
-                      {}
-                  camera_rearDown:
-                    camera_optical_rearDown:
-                      {}
-                  camera_right:
-                    camera_laserscan_link_right:
-                      {}
-                    camera_optical_right:
-                      {}
-                  imu_link:
+                  FR_calf_rotor:
                     {}
-                  ultraSound_face:
+                FR_thigh_rotor:
+                  {}
+              FR_hip_rotor:
+                {}
+              RL_hip:
+                RL_thigh:
+                  RL_calf:
+                    RL_foot:
+                      {}
+                  RL_calf_rotor:
                     {}
-                  ultraSound_left:
+                RL_thigh_rotor:
+                  {}
+              RL_hip_rotor:
+                {}
+              RR_hip:
+                RR_thigh:
+                  RR_calf:
+                    RR_foot:
+                      {}
+                  RR_calf_rotor:
                     {}
-                  ultraSound_right:
-                    {}
-                vehicle:
-                  sensor:
-                    livox_base:
-                      livox_base_link:
-                        livox:
-                          {}
-            fastlio_gravity_estimate:
-              {}
-            fastlio_gravity_init:
-              {}
-            imu_forward_prop:
-              {}
+                RR_thigh_rotor:
+                  {}
+              RR_hip_rotor:
+                {}
+              camera_chin:
+                camera_optical_chin:
+                  {}
+              camera_face:
+                camera_optical_face:
+                  {}
+              camera_left:
+                camera_laserscan_link_left:
+                  {}
+                camera_optical_left:
+                  {}
+              camera_rearDown:
+                camera_optical_rearDown:
+                  {}
+              camera_right:
+                camera_laserscan_link_right:
+                  {}
+                camera_optical_right:
+                  {}
+              imu_link:
+                {}
+              ultraSound_face:
+                {}
+              ultraSound_left:
+                {}
+              ultraSound_right:
+                {}
+            vehicle:
+              sensor:
+                {}
+            velodyne_base_link:
+              velodyne:
+                {}
+          sensor_at_scan:
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -327,7 +308,7 @@ Visualization Manager:
       Unreliable: false
       Value: true
     - Alpha: 1
-      Autocompute Intensity Bounds: true
+      Autocompute Intensity Bounds: false
       Autocompute Value Bounds:
         Max Value: 10
         Min Value: -10
@@ -341,21 +322,23 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
+      Max Intensity: 6
       Min Color: 0; 0; 0
+      Min Intensity: 0
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
-      Size (Pixels): 3
+      Size (Pixels): 2
       Size (m): 0.009999999776482582
-      Style: Flat Squares
+      Style: Points
       Topic: /free_paths
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
     - Alpha: 1
-      Autocompute Intensity Bounds: true
+      Autocompute Intensity Bounds: false
       Autocompute Value Bounds:
         Max Value: 10
         Min Value: -10
@@ -367,16 +350,18 @@ Visualization Manager:
       Color Transformer: Intensity
       Decay Time: 0
       Enabled: true
-      Invert Rainbow: false
+      Invert Rainbow: true
       Max Color: 255; 255; 255
+      Max Intensity: 0.10000000149011612
       Min Color: 0; 0; 0
+      Min Intensity: -0.10000000149011612
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
-      Size (Pixels): 3
+      Size (Pixels): 4
       Size (m): 0.009999999776482582
-      Style: Flat Squares
+      Style: Points
       Topic: /terrain_map
       Unreliable: false
       Use Fixed Frame: true
@@ -396,21 +381,16 @@ Visualization Manager:
     - Class: rviz/Select
     - Class: rviz/FocusCamera
     - Class: rviz/Measure
-    - Class: rviz/SetInitialPose
-      Theta std deviation: 0.2617993950843811
-      Topic: /initialpose
-      X std deviation: 0.5
-      Y std deviation: 0.5
-    - Class: rviz/SetGoal
-      Topic: /move_base_simple/goal
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
+    - Class: rviz/WaypointTool
+      Topic: waypoint
   Value: true
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.072204828262329
+      Distance: 10.686819076538086
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -418,17 +398,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 4.006797790527344
-        Y: -1.3579472303390503
-        Z: -0.014408355578780174
+        X: 4.451018333435059
+        Y: 2.435142755508423
+        Z: 0.3113144040107727
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4847956895828247
+      Pitch: 0.7047954797744751
       Target Frame: <Fixed Frame>
-      Yaw: 5.273585796356201
+      Yaw: 3.218580961227417
     Saved: ~
 Window Geometry:
   Displays:
