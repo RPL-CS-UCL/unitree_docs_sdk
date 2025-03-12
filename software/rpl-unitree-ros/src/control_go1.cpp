@@ -1,7 +1,7 @@
 #include <string>
 #include <stdlib.h>
 
-#include <geometry_msgs/TwistStamped.h>
+#include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
 
 #include "unitree_legged_sdk/unitree_legged_sdk.h"
@@ -15,7 +15,7 @@ Go1Controller(ros::NodeHandle *nh, float dt = 0.002, float deadmans_switch_time=
   udp_(8090, "192.168.123.161", 8082, sizeof(HighCmd), sizeof(HighState)),
   deadmans_switch_time_(deadmans_switch_time)
   {
-    cmd_vel_sub_ = nh->subscribe<geometry_msgs::TwistStamped>("cmd_vel", 1, 
+    cmd_vel_sub_ = nh->subscribe<geometry_msgs::Twist>("cmd_vel", 1, 
             &Go1Controller::cmd_vel_cb, this);
     
     ros::NodeHandle nhPrivate = ros::NodeHandle("~");
@@ -61,28 +61,28 @@ Go1Controller(ros::NodeHandle *nh, float dt = 0.002, float deadmans_switch_time=
   }
 
 private:
-  void cmd_vel_cb(const geometry_msgs::TwistStamped::ConstPtr& msg)
+  void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg)
   {
 
-    float linear_x_vel = msg->twist.linear.x;
-    if (abs(msg->twist.linear.x) > max_abs_linear_vel_)
+    float linear_x_vel = msg->linear.x;
+    if (abs(msg->linear.x) > max_abs_linear_vel_)
     {
       ROS_WARN("command vel linear x over absolute limit, changing it.");
-      linear_x_vel = min(max(-max_abs_linear_vel_, (float)msg->twist.linear.x), max_abs_linear_vel_);
+      linear_x_vel = min(max(-max_abs_linear_vel_, (float)msg->linear.x), max_abs_linear_vel_);
     }
 
-    float linear_y_vel = msg->twist.linear.y;
-    if (abs(msg->twist.linear.y) > max_abs_linear_vel_)
+    float linear_y_vel = msg->linear.y;
+    if (abs(msg->linear.y) > max_abs_linear_vel_)
     {
       ROS_WARN("command vel linear y over absolute limit, changing it.");
-      linear_y_vel = min(max(-max_abs_linear_vel_, (float)msg->twist.linear.y), max_abs_linear_vel_);
+      linear_y_vel = min(max(-max_abs_linear_vel_, (float)msg->linear.y), max_abs_linear_vel_);
     }
 
-    float angular_z_vel = msg->twist.angular.z;
-    if (abs(msg->twist.angular.z) > max_abs_angular_vel_)
+    float angular_z_vel = msg->angular.z;
+    if (abs(msg->angular.z) > max_abs_angular_vel_)
     {
       ROS_WARN("command vel angular z over absolute limit, changing it.");
-      angular_z_vel = min(max(-max_abs_angular_vel_, (float)msg->twist.angular.z), max_abs_angular_vel_);
+      angular_z_vel = min(max(-max_abs_angular_vel_, (float)msg->angular.z), max_abs_angular_vel_);
     }
 
 

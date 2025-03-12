@@ -49,7 +49,10 @@ If using a nano, setup for the nano is a bit different and you need to flash and
 On another computer connected to the same network:
 ```
 xhost +local:root && docker run --rm -it --network host --nvidia --x11 --devices /dev/dri -e DISPLAY -e QT_X11_NO_MITSHM=1 -e XAUTHORITY=/tmp/.docker.xauth -v /tmp/.X11-units:/tmp/.X11-unix:rw -v ~/.Xauthority:/root/.Xauthority:rw -v /home/student/unitree_docs_sdk:/uni osrf/ros:noetic-desktop-full && xhost -local:root
-export ROS_MASTER_URI=http://192.168.1.44:11311
+export ROS_MASTER_URI=http://192.168.1.40:11311
+catkin_make --only-pkg-with-deps waypoint_rviz_plugin
+source devel/setup.bash
+rviz
 ```
 
 

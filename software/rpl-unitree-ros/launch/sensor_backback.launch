@@ -54,8 +54,11 @@
 		<arg name="user_config_path" value="$(find rpl-unitree-ros)/config/livox/livox_lidar_config2.json" />
     </include>
 
+
+  	<node pkg="rpl-unitree-ros" name="twist_stamped_to_twist" type="twist_stamped_to_twist.py" output="screen"/>
+
 	<include file="$(find champ_bringup)/launch/include/velocity_smoother.launch">
-		<arg name="raw_cmd_vel_topic" value="/cmd_vel"/>
+		<arg name="raw_cmd_vel_topic" value="/cmd_vel_twist"/>
 		<arg name="robot_cmd_vel_topic" value="/no_vel_feedback"/>
 	</include>
 
