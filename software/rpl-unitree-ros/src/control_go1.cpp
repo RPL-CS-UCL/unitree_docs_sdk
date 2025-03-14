@@ -89,7 +89,7 @@ Go1Controller(ros::NodeHandle *nh, float dt = 0.002, float deadmans_switch_time=
       cmd_.velocity[1] = 0;
       cmd_.yawSpeed = 0;
       cmd_.reserve = 0;
-      // udp_.SetSend(cmd_);
+      udp_.SetSend(cmd_);
     }
   }
 
@@ -133,7 +133,7 @@ private:
     cmd_.yawSpeed = angular_z_vel;
     cmd_.reserve = 0;
 
-    // udp_.SetSend(cmd_);
+    udp_.SetSend(cmd_);
     last_send_time_ = ros::Time::now();
   }
 
