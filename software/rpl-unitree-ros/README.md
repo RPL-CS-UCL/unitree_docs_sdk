@@ -117,6 +117,15 @@ point:
   z: 0"
 ```
 
+
+starek network adaptor for drivers (should be auto installed)
+https://www.startech.com/en-gb/networking-io/usb31000s?srsltid=AfmBOoozbCWJRKC0Ho44RSnlS4pml3v-TqDNCtX4Jq5hZZ-VwbXWbX5e
+
+udp dump packets
+```
+sudo tcpdump -i enx00249b2c9568 -n udp port 8082
+```
+
 ### jax on real robot
 using python3.10
 ```python -m pip install jax[cuda12_local]==0.4.35.dev20241015+b076890 jaxlib==0.4.35.dev20241015 --index=https://pypi.jetson-ai-lab.dev/jp6/cu126

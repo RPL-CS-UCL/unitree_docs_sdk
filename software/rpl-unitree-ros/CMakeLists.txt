@@ -136,9 +136,9 @@ if (UNISDK)
   find_package(lcm REQUIRED)
 
   set(UNITREE_DIR ${CMAKE_CURRENT_LIST_DIR}/unitree_legged_sdk/include/unitree_legged_sdk)
-  set(HEADER_FILES ${UNITREE_DIR}/comm.h ${UNITREE_DIR}/go1_const.h ${UNITREE_DIR}/lcm_server.h ${UNITREE_DIR}/lcm.h ${UNITREE_DIR}/loop.h ${UNITREE_DIR}/quadruped.h ${UNITREE_DIR}/safety.h ${UNITREE_DIR}/udp.h ${UNITREE_DIR}/unitree_joystick.h ${UNITREE_DIR}/unitree_legged_sdk.h)
+  set(HEADER_FILES ${UNITREE_DIR}/comm.h ${UNITREE_DIR}/go1_const.h ${UNITREE_DIR}/loop.h ${UNITREE_DIR}/quadruped.h ${UNITREE_DIR}/safety.h ${UNITREE_DIR}/udp.h ${UNITREE_DIR}/unitree_legged_sdk.h)
 
-  set(EXTRA_LIBS -pthread ${CMAKE_SOURCE_DIR}/unitree_legged_sdk/lib/libunitree_legged_sdk_arm64.so lcm)
+  set(EXTRA_LIBS -pthread ${CMAKE_SOURCE_DIR}/unitree_legged_sdk/lib/cpp/arm64/libunitree_legged_sdk.a lcm)
 
   ## Declare a C++ library
   add_library(${PROJECT_NAME}_unitree ${HEADER_FILES} ${Boost_INCLUDE_DIRS})

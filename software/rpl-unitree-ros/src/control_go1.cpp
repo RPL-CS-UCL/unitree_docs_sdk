@@ -36,7 +36,9 @@ Go1Controller(ros::NodeHandle *nh, float dt = 0.002, float deadmans_switch_time=
     udp_.GetRecv(state_);
     ROS_INFO("level flag: %d", state_.levelFlag);
     ROS_INFO("mode: %d", state_.mode);
-
+    ROS_INFO("cartesian x: %f", state_.footPosition2Body[0].x);
+    ROS_INFO("cartesian y: %f", state_.footPosition2Body[0].y);
+    ROS_INFO("cartesian z: %f", state_.footPosition2Body[0].z);
 	// typedef struct
 	// {
 	// 	uint8_t levelFlag;
@@ -87,7 +89,7 @@ Go1Controller(ros::NodeHandle *nh, float dt = 0.002, float deadmans_switch_time=
       cmd_.velocity[1] = 0;
       cmd_.yawSpeed = 0;
       cmd_.reserve = 0;
-      udp_.SetSend(cmd_);
+      // udp_.SetSend(cmd_);
     }
   }
 
@@ -131,7 +133,7 @@ private:
     cmd_.yawSpeed = angular_z_vel;
     cmd_.reserve = 0;
 
-    udp_.SetSend(cmd_);
+    // udp_.SetSend(cmd_);
     last_send_time_ = ros::Time::now();
   }
 
