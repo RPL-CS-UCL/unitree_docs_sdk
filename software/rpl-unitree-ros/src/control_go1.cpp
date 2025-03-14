@@ -12,7 +12,7 @@ class Go1Controller {
 public:
 Go1Controller(ros::NodeHandle *nh, float dt = 0.002, float deadmans_switch_time=0.5) : 
   safety_(LeggedType::A1), 
-  udp_(8090, "192.168.123.161", 8082, sizeof(HighCmd), sizeof(HighState)),
+  udp_(HIGHLEVEL, 8090, "192.168.123.161", 8082),
   deadmans_switch_time_(deadmans_switch_time)
   {
     cmd_vel_sub_ = nh->subscribe<geometry_msgs::Twist>("cmd_vel", 1, 
@@ -119,9 +119,9 @@ private:
     }
 
 
-    udp_.GetRecv(state_);
+    // udp_.GetRecv(state_);
     cmd_.mode = 2;      // 0:idle, default stand      1:forced stand     2:walk continuously
-    cmd_.gaitType = 0;
+    cmd_.gaitType = 1;
     cmd_.speedLevel = 0;
     cmd_.footRaiseHeight = 0;
     cmd_.bodyHeight = 0;
