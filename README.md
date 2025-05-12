@@ -2,6 +2,10 @@
 
 This is an in-progress build that doesn't yet work.
 
+## Tutorial list 
+### Fast Search Document
+1. [Run Program on GO2W for Real-World Tests](docs/run_program_on_go2w.md)
+
 ## Integration with CMU NAV Stack
 The package in this repo `rpl-unitree-ros` in the `software` folder starts work on integrating the nav stack. See the README in that repo for more details [here](software/rpl-unitree-ros/README.md)
 
