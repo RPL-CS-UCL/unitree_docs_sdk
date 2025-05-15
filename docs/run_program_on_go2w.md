@@ -3,22 +3,22 @@
 ### Start Hardware
 1. Connect the bettery with the NUC and Jetson Orin.
 2. Login the **jjiao** account with the password.
-3. Check whether the network connection of the NUC is **Anymal_Shared_Network**.
-4. Turn on the Go2W and swith its mode as **walking mode**.
-5. Run ```./start_vnc.sh``` on both the NUC and Jetson, you can use the Remmina to remote control them.
+3. Check whether the NUC is connected to the GO2W.
+4. Turn on the Go2W.
+5. Run ```./start_vnc.sh``` on both the NUC and Jetson, you can use the Remmina to remotely control them.
 <div align="center">
   <a href="">
-    <img align="center" src="image/anymal_d_hardware.jpeg" width="50%" alt="anymal_d_hardware">
+    <img align="center" src="image/go2w_hardware.jpeg" width="50%" alt="go2w_hardware">
   </a> 
 </div>
 
 ### Start VNC
 1. (NUC/Jetson) settings -> sharing -> scene sharing (turn on)
 2. (User PC) open Remmina Remote Destkop -> create a VNC setting -> click connect
-3. **Note**: if you cannot connect to the NUC, please check the wifi setting of NUC, whether **Anymal_Shared_Network** is connected
+3. **Note**: if you cannot connect to the NUC, please check the wifi setting of NUC, whether the network to the GO2W is connected
 <div align="center">
   <a href="">
-    <img align="center" src="image/anymal_d_vnc_setting.png" width="40%" alt="anymal_d_vnc_setting">
+    <img align="center" src="image/go2w_vnc_setting.png" width="40%" alt="go2w_vnc_setting">
   </a> 
 </div>
 
@@ -27,7 +27,6 @@
    ```
    cd ~/robohike_ws/src/RPL-RoboHike/config_launch_go2w
    ./run_nuc_go2w_sensor_setup.sh
-   
    ```
 
 2. Setup sensor on the Jetson (start Zed camera): 
@@ -48,13 +47,31 @@
    rostopic hz /livox/imu
    ``````
 
-<!-- TODO -->
-### RUN the CMU Navigtion System on Anymal
+5. Record ROS bag (**navigation_debug.sh** only records raw data, while **navigation.sh** records raw data and navigation data)
+
+   ``````
+   cd ~/
+   ./record_rosbag_go2w_navigation_debug.sh
+   ``````
+
+### RUN the Fastlio2
 
 1. Setup cmu navigation:
    ```
-   cd ~ && ./run_nuc_anymal_real_system.sh
-   roslaunch config_launch_anymal/launch/cmu_exploration/anymal_real_system.launch
+   docker start robohike_anymal
+   docker exec -it robohike_anymal /bin/bash
+   cd /Titan/robohike_ws/src/RPL-RoboHike/config_launch_go2w
+   ./run_fastlio2_mid360.sh
+   ```
+   A rviz will open and visualize message
+
+<!-- TODO -->
+### RUN the CMU Navigtion System (Not TEST)
+
+1. Setup cmu navigation:
+   ```
+   cd ~ && ./run_nuc_go2w_real_system.sh
+   roslaunch config_launch_go2w/launch/cmu_exploration/go2w_real_system.launch
    ```
    A rviz will open and visualize message
 2. Use the [Game Joystick](image/joystick_esm9013_description.png) and click the ```start``` button, you can see message in the terminal
@@ -63,4 +80,4 @@
    ```
    This means that your joystick is taking the control
 3. Provide a waypoint and Press ```auto mode``` to let the robot autonomouslymove
-4. [Emergency] Use the ANYMal joystick to avoid any danger, and recover ```auto mode``` by pressing the ```start``` button with the game joystick.
+4. [Emergency] Use the GO2W joystick to avoid any danger, and recover ```auto mode``` by pressing the ```start``` button with the game joystick.
