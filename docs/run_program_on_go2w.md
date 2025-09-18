@@ -161,11 +161,6 @@ cd ~ && bash run_nuc_go2w_sensor_setup.sh
 4. [Emergency] Use the GO2W joystick to avoid any danger, and recover ```auto mode``` by pressing the ```start``` button with the game joystick.
 
 
-```shell
-bash run_nuc_go2w_real_system.sh
-roslaunch config_launch_go2w/launch/cmu_exploration/go2w_real_system.launch use_rviz:=True
-```
-
 ### Report Issue
 1. Complie ```ros1_bridge```: if you have encoutered this issue
 ```shell script
