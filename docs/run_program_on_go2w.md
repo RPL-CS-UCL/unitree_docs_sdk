@@ -1,83 +1,180 @@
-## Run Program On Go2W with the CMU Navigation System
+This README provides instructions on how to install and configure the ROS bridge for message conversion between ROS 1 and ROS 2, specifically for the Unitree ROS2 Toolkits.
 
-### Start Hardware
-1. Connect the bettery with the NUC and Jetson Orin.
-2. Login the **jjiao** account with the password.
-3. Check whether the NUC is connected to the GO2W.
-4. Turn on the Go2W.
-5. Run ```./start_vnc.sh``` on both the NUC and Jetson, you can use the Remmina to remotely control them.
-<div align="center">
-  <a href="">
-    <img align="center" src="image/go2w_hardware.jpeg" width="50%" alt="go2w_hardware">
-  </a> 
-</div>
+### 1\. Installing Requirements
 
-### Start VNC
-1. (NUC/Jetson) settings -> sharing -> scene sharing (turn on)
-2. (User PC) open Remmina Remote Destkop -> create a VNC setting -> click connect
-3. **Note**: if you cannot connect to the NUC, please check the wifi setting of NUC, whether the network to the GO2W is connected
-<div align="center">
-  <a href="">
-    <img align="center" src="image/go2w_vnc_setting.png" width="40%" alt="go2w_vnc_setting">
-  </a> 
-</div>
+#### 1.1 Install ROS2
+Full documentation is [here](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html). 
+Please check the corresponding ROS2 version for your perference.
 
-### Start Sensor
-1. Setup sensor on the NUC (start Livox, publish TF): 
-   ```
-   cd ~/robohike_ws/src/RPL-RoboHike/config_launch_go2w
-   ./run_nuc_go2w_sensor_setup.sh
-   ```
+#### 1.2. ROS 1 Bridge
+Full documentation is [here](https://github.com/ros2/ros1_bridge/blob/master/README.md).
 
-2. Setup sensor on the Jetson (start Zed camera): 
-   ```
-   cd ~/robohike_ws/src/RPL-RoboHike/config_launch_go2w
-   ./run_orin_go2w_sensor_setup.sh
-   ```
+1.  Navigate to the `ros2_ro1_bridge_ws` source directory and clone the `ros1_bridge` repository.
 
-3. Open RVIZ on the NUC to check whether the zed camera already setup
+    ```shell
+    cd robohike_ws/src/ros2_ros1_bridge_ws/src
+    git clone https://github.com/ros2/ros1_bridge -b foxy
+    cd ../
+    ```
 
-   ```
-   rviz -d config_launch_anymal/rviz_cfg/zed.rviz
-   ```
+2.  Build all packages *except* the `ros1_bridge`. It is recommended not to have your ROS 1 environment sourced during this step.
 
-4. Check whether sensor data is ready:
+    ```shell
+    colcon build --symlink-install --packages-skip ros1_bridge
+    ```
 
-   ``````
-   rostopic hz /livox/imu
-   ``````
+3.  Finally, build only the `ros1_bridge`:
 
-5. Record ROS bag (**navigation_debug.sh** only records raw data, while **navigation.sh** records raw data and navigation data)
+    ```shell
+    source /opt/ros/noetic/setup.bash
+    source /opt/ros/foxy/setup.bash
+    colcon build --symlink-install --packages-select ros1_bridge --cmake-force-configure
+    ```
 
-   ``````
-   cd ~/
-   ./record_rosbag_go2w_navigation_debug.sh
-   ``````
+#### 1.3. Unitree ROS2 Toolkits
 
-### RUN the Fastlio2
+First, replace `foxy` with the correct ROS2 distribution (e.g., `humble`).
+
+1.  Navigate to your workspace and clone the Unitree ROS2 repository:
+
+    ```shell
+    cd robohike_ws/src/ros2_ws
+    git clone https://github.com/unitreerobotics/unitree_ros2
+    ```
+
+2.  Install necessary tools and update packages:
+
+    ```shell
+    apt install gedit net-tools -y
+    apt update && apt install ros-foxy-rmw-cyclonedds-cpp ros-foxy-rosidl-generator-dds-idl -y
+    ```
+
+3.  Clone and build CycloneDDS:
+
+    ```shell
+    cd unitree_ros2/cyclonedds_ws/src/
+    git clone https://github.com/ros2/rmw_cyclonedds -b foxy
+    git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x
+    cd ../
+    colcon build --packages-select cyclonedds
+    ```
+
+4.  Source the ROS 2 setup and build the Unitree ROS2 packages:
+
+    ```shell
+    source /opt/ros/foxy/setup.bash
+    colcon build --symlink-install
+    ```
+
+##### 1.4. Unitree GO2 Bringup
+
+remove ```go2_simulation``` and ```go2_nav```
+
+```
+apt install ros-foxy-xacro
+colcon build --symlink-install
+```
+
+```
+ros2 launch go2_bringup go2w_robot.launch.py
+```
+
+### 2\. Start G2W
+
+#### 2.1. Network Configuration
+
+1.  Connect the robot and your computer with a network cable. Please check the connection
+
+<p align="center">
+    <img src="image/go2w_network_pci.jpeg" alt="go2w_network_pci" width="40%">
+</p>
+
+<p align="center">
+    <img src="image/go2w_network_usb.jpeg" alt="go2w_network_usb" width="40%">
+</p>
+
+
+2.  Verify the connection by pinging the robot's IP address:
+
+    ```shell
+    ping 192.168.123.99
+    ```
+
+3.  Modify the `robohike_ws/src/unitree_ros2/setup.sh` file with the following content.
+
+    **Note:** Replace `eno2` with the name of your computer's network card.
+
+    ```bash
+    #!/bin/bash
+    echo "Setup unitree ros2 environment"
+    source /opt/ros/humble/setup.bash
+    source robohike_ws/src/unitree_ros2/cyclonedds_ws/install/setup.bash
+    export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    export CYCLONEDDS_URI='<CycloneDDS><Domain><General><Interfaces>
+                           <NetworkInterface name="eno2" priority="default" multicast="default" />
+                           </Interfaces></General></Domain></CycloneDDS>'
+    ```
+
+### 3\. Setup GO2W
+
+#### Hardware
+<p align="center">
+    <img src="image/go2w_hardware_setup.jpeg" alt="go2w_hardware_setup" width="50%">
+</p>
+
+<p align="center">
+    <img src="image/go2w_hardware_start.jpeg" alt="go2w_hardware_start" width="50%">
+</p>
+
+#### Software
+Run the following script to start the network connection:
+
+```shell
+cd ~ && bash run_nuc_go2w_hd_setup.sh
+```
+
+Run the following script to start the sensor and ros1 bridge:
+
+```shell
+cd ~ && bash run_nuc_go2w_sensor_setup.sh
+```
+
+### 4\. Run the CMU Navigtion System
 
 1. Setup cmu navigation:
-   ```
-   docker start robohike_anymal
-   docker exec -it robohike_anymal /bin/bash
-   cd /Titan/robohike_ws/src/RPL-RoboHike/config_launch_go2w
-   ./run_fastlio2_mid360.sh
-   ```
-   A rviz will open and visualize message
-
-<!-- TODO -->
-### RUN the CMU Navigtion System (Not TEST)
-
-1. Setup cmu navigation:
-   ```
-   cd ~ && ./run_nuc_go2w_real_system.sh
-   roslaunch config_launch_go2w/launch/cmu_exploration/go2w_real_system.launch
+   ```shell
+   cd ~ && bash run_nuc_go2w_real_system.sh
+   roslaunch config_launch_go2w/launch/cmu_exploration/go2w_real_system.launch use_rviz:=true
    ```
    A rviz will open and visualize message
 2. Use the [Game Joystick](image/joystick_esm9013_description.png) and click the ```start``` button, you can see message in the terminal
+   <p align="center">
+     <img src="image/joystick_esm9013_description.png" alt="Game Joystick" width="80%">
+   </p>
+
+   ```shell
+   [Navigation Control] Start Publishing Twist message.
    ```
-   [Navigation Control] Will republish velocity to /motion_reference/command_twist message
-   ```
+   
    This means that your joystick is taking the control
-3. Provide a waypoint and Press ```auto mode``` to let the robot autonomouslymove
+3. Provide a waypoint and Press ```auto mode``` to let the robot autonomously move
 4. [Emergency] Use the GO2W joystick to avoid any danger, and recover ```auto mode``` by pressing the ```start``` button with the game joystick.
+
+
+```shell
+bash run_nuc_go2w_real_system.sh
+roslaunch config_launch_go2w/launch/cmu_exploration/go2w_real_system.launch use_rviz:=True
+```
+
+### Report Issue
+1. Complie ```ros1_bridge```: if you have encoutered this issue
+```shell script
+--- stderr: ros1_bridge                                          
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::Factory<controller_manager_msgs::ControllerState_<std::allocator<void> >, controller_manager_msgs::msg::ControllerState_<std::allocator<void> > >::convert_1_to_2(controller_manager_msgs::ControllerState_<std::allocator<void> > const&, controller_manager_msgs::msg::ControllerState_<std::allocator<void> >&)'
+```
+Please remove ```/opt/ros/foxy/share/controller_manager_msgs``` and re-compile
+```shell script
+colcon build --symlink-install --packages-select ros1_bridge --cmake-force-configure
+```
+
+2. If you cannot successfully build the ros1-bridge, please reinstall the ros1 and re-complie it again
