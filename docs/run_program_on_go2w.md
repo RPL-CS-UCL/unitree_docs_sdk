@@ -1,4 +1,4 @@
-This README provides instructions on how to install and configure the ROS bridge for message conversion between ROS 1 and ROS 2, specifically for the Unitree ROS2 Toolkits.
+This README provides instructions on how to install and configure the ROS bridge for message conversion between ROS 1 and ROS 2, specifically for the Unitree ROS2 Toolkits, and start the CMU navigation on the GO2W robot.
 
 ### 1\. Installing Requirements
 
