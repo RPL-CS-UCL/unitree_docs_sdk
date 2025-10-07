@@ -83,7 +83,7 @@ ros2 launch go2_bringup go2w_robot.launch.py
 
 #### 2.1. Network Configuration
 
-1.  Connect the robot and your computer with a network cable. Please check the connection
+1.  Connect the robot and the onboard NUC computer/your own computer with a network cable. Please check the connection
 
 <p align="center">
     <img src="image/go2w_network_pci.jpeg" alt="go2w_network_pci" width="40%">
@@ -127,8 +127,12 @@ ros2 launch go2_bringup go2w_robot.launch.py
 </p>
 
 #### Software
-Run the following script to start the network connection:
+Start the VNC on the NUC computer, you can use the Remmina to remote control them.
+```shell
+./start_vnc.sh
+```
 
+Setup sensor drivers:
 ```shell
 cd ~ && bash run_nuc_go2w_hd_setup.sh
 ```
