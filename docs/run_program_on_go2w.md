@@ -97,7 +97,7 @@ ros2 launch go2_bringup go2w_robot.launch.py
 2.  Verify the connection by pinging the robot's IP address:
 
     ```shell
-    ping 192.168.123.99
+    ping 192.168.123.222
     ```
 
 3.  Modify the `robohike_ws/src/unitree_ros2/setup.sh` file with the following content.
